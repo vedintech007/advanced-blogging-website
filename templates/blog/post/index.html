@@ -1,6 +1,36 @@
 {% extends "blog/base.html" %}
+{% load static %}
 {% block title %}Blog Home Page{% endblock title %}
 
 {% block content %}
+<div class="row">
+	<div class="col-lg-9 col-md-12 my-1">
+		<input class="form-control my-1 p-3 fs-4" type="search" placeholder="Search for blogs..">
+		<div class="row">
+			{% for post in posts %}
+			<div class="col-md-6 col-lg-4 col-xl-4 col-xxl-3 my-3">
+				<div class="card">
+					<div class="card-image">
+						<img class="img-fluid cover-image" src="{{ post.cover_image.url }}" alt="{{ post.title }}'s blog cover image">
+					</div>
+					<div class="card-title my-4">
+						<a class="text-decoration-none text-info fs-3 fw-light" href="{{post.get_absolute_url}}">{{ post.title }}</a>
+					</div>
+					<div class="card-text lh-lg opacity-75">
+						{{post.body|safe|truncatewords:22}}
+					</div>
+					<div class="card-footer text-info">
+						Published {{ post.publish }}<br> By {{ post.author|upper }}
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
 
+	</div>
+
+	<div class="col-3 my-5 pt-4 d-none d-lg-block">
+		{% include "blog/partials/sidebar.html" %}
+	</div>
+</div>
 {% endblock content %}

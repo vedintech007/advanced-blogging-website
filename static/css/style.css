@@ -1,0 +1,9 @@
+.cover-image {
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: aqua;
+
+	width: 100%;
+	height: 300px;
+}
