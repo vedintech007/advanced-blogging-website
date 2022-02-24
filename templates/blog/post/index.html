@@ -11,10 +11,12 @@
 			<div class="col-md-6 col-lg-4 col-xl-4 col-xxl-3 my-3">
 				<div class="card">
 					<div class="card-image">
-						<img class="img-fluid cover-image" src="{{ post.cover_image.url }}" alt="{{ post.title }}'s blog cover image">
+						<img class="img-fluid cover-image" src="{{ post.cover_image.url }}"
+							alt="{{ post.title }}'s blog cover image">
 					</div>
 					<div class="card-title my-4">
-						<a class="text-decoration-none text-info fs-3 fw-light" href="{{post.get_absolute_url}}">{{ post.title }}</a>
+						<a class="text-decoration-none text-info fs-3 fw-light"
+							href="{{post.get_absolute_url}}">{{ post.title }}</a>
 					</div>
 					<div class="card-text lh-lg opacity-75">
 						{{post.body|safe|truncatewords:22}}
@@ -25,6 +27,9 @@
 				</div>
 			</div>
 			{% endfor %}
+			{% if object_list > 12 %}
+				{% include "blog/partials/pagination.html" %}
+			{% endif %}
 		</div>
 
 	</div>
