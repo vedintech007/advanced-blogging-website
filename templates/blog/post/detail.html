@@ -1,6 +1,26 @@
 {% extends "blog/base.html" %}
+{% load static %}
 {% block title %}Blog Details Page{% endblock title %}
 
 {% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-lg-9 col-md-12 my-1">
 
+			<div class="blog-detail-cover-image pt-3">
+				<span class="d-flex justify-content-center p-5 text-white">
+					<h1>{{post.title}}</h1>
+				</span>
+			</div>
+
+			<p class="my-3">Publishd {{post.publish}} <span class="mx-2">By {{post.author}}</span></p>
+			<div class="text-justify">
+				{{post.body|safe|linebreaks}}
+			</div>
+		</div>
+		<div class="col-lg-3 my-5 pt-5 d-none d-lg-block">
+			{% include "blog/partials/sidebar.html" %}
+		</div>
+	</div>
+</div>
 {% endblock content %}

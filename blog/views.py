@@ -19,7 +19,7 @@ def post_detail(request, year, month, day, post):
                             publish__year=year, publish__month=month, publish__day=day)
 
     context = {
-        
+        'post': post
     }
 
-    return render(request, 'blog/post/detail.html')
+    return render(request, 'blog/post/detail.html', context)

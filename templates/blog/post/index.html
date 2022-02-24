@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="row">
-	<div class="col-lg-9 col-md-12 my-1">
+	<div class="col-lg-10 col-md-12 my-1">
 		<input class="form-control my-1 p-3 fs-4" type="search" placeholder="Search for blogs..">
 		<div class="row">
 			{% for post in posts %}
@@ -29,7 +29,7 @@
 
 	</div>
 
-	<div class="col-3 my-5 pt-4 d-none d-lg-block">
+	<div class="col-lg-2 my-5 pt-4 d-none d-lg-block">
 		{% include "blog/partials/sidebar.html" %}
 	</div>
 </div>

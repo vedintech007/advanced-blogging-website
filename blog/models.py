@@ -17,7 +17,7 @@ class Post(models.Model):
     )
 
     title = models.CharField(max_length=250)
-    cover_image = models.ImageField(upload_to="img/post_cover_images", null=True)
+    cover_image = models.ImageField(upload_to="static/img/post_cover_images", null=True)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='blog_posts')
