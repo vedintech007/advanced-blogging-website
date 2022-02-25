@@ -20,6 +20,7 @@
 				{{post.body|safe|linebreaks}}
 			</div>
 		</div>
+
 		<div class="col-lg-4 my-5 pt-5 d-none d-lg-block">
 			{% include "blog/partials/sidebar.html" %}
 			{% block sidebar %}
@@ -36,5 +37,37 @@
 			</span>
 		</a>
 	</p>
+
+	<div class="row py-5">
+		<div class="col-md-6">
+			{% with comments.count as total_comments %}
+				<h2>
+					{{ total_comments }} comment{{ total_comments|pluralize }}
+				</h2>
+			{% endwith %}
+
+			{% for comment in comments %}
+				<div class="border-start border-{{comment.color}} border-5 px-4 mb-5">
+					<p>Comment {{forloop.revcounter }} by {{comment.name}}</p>
+					<div class="">
+						{{ comment.body|linebreaks }}
+					</div>
+				</div>
+			{% empty %}
+			<h3>There are no comments!</h3>
+			{% endfor %}
+		</div>
+
+		<div class="col-md-6">
+			<h3 class="text-center">Add new comment</h3>
+			<form action="" method="POST">
+				{% csrf_token %}
+				{{comment_form|crispy}}
+				<span class=" d-flex justify-content-center">
+					<input type="submit" class="btn btn-primary my-2 col-12" value="Add Comment">
+				</span>
+			</form>
+		</div>
+	</div>
 </div>
 {% endblock content %}
