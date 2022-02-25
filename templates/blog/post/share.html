@@ -1,0 +1,38 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block title %}Share Blog Page{% endblock title %}
+{% load crispy_forms_tags %}
+<!--|crispy-->
+
+{% block content %}
+<div class="container">
+	<div class="row mt-5">
+		<div class="col-md-6 offset-md-3">
+			{% if sent %}
+			<h1 class="text-center">E-mail successfully sent</h1>
+			<p class="alert alert-{{message.tags}} alert-dismissible fade show text-center bg-success text-white">
+				"{{ post.title }}" was successfully sent to {{ form.cleaned_data.to }}.
+			</p>
+			<a class="btn btn-outline-success col-12" href="{% url 'blog:post_list' %}">Back to all Blog</a>
+			{% else %}
+			<div class="border p-3 bg-white">
+				<h4>Share "{{ post.title }}" via e-mail</h4>
+				<hr>
+				<form method="POST">
+					{% csrf_token %}
+					{{ form|crispy }}
+					{% csrf_token %}
+					<input class="btn btn-success col-12" type="submit" value="Send E-mail">
+
+					<div>
+						{{ form.errors }}
+						{{ form.label_tag }} {{ field }}
+					</div>
+				</form>
+
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock content %}
