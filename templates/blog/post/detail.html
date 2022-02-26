@@ -14,8 +14,8 @@
 					<h1>{{post.title}}</h1>
 				</span>
 			</div>
-
-			<p class="my-4 fw-bold">Publishd {{post.publish}} <span class="mx-2">By {{post.author}}</span></p>
+			<p class="my-2 fw-bold"><span>Tags: {{ post.tags.all|join:', '}}</span></p>
+			<p class="my-3 fw-bold opacity-75">Publishd {{post.publish}} <span class="mx-2">By {{post.author}}</span></p>
 			<div class="text-justify">
 				{{post.body|safe|linebreaks}}
 			</div>
@@ -24,7 +24,7 @@
 		<div class="col-lg-4 my-5 pt-5 d-none d-lg-block">
 			{% include "blog/partials/sidebar.html" %}
 			{% block sidebar %}
-			<h2>Similar Posts</h2>
+			<h2 class="text-center">Similar Posts</h2>
 			{% endblock sidebar %}
 		</div>
 	</div>

@@ -41,6 +41,8 @@ class Post(models.Model):
 
     objects = models.Manager()  # The default manager eg. Post.objects.all()
     published = PublishedManager()  # Our custom manager eg. Post.published.all()
+    
+    tags = TaggableManager()
 
     class Meta:
         ordering = ('-publish',)
@@ -78,8 +80,6 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
-    
-    tags = TaggableManager()
 
     class Meta:
         ordering = ('-created',)
