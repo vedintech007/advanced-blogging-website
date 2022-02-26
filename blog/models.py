@@ -1,9 +1,11 @@
-from django.db import models
-from django.utils import timezone
-from django.contrib.auth.models import User
-from ckeditor.fields import RichTextField
-from django.urls import reverse
 import random
+
+from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
+from django.db import models
+from django.urls import reverse
+from django.utils import timezone
+from taggit.managers import TaggableManager
 
 BOOSTRAP_COLOR = (
     'primary', 'secondary',
@@ -76,6 +78,8 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
+    
+    tags = TaggableManager()
 
     class Meta:
         ordering = ('-created',)
