@@ -1,6 +1,7 @@
 from django.core.mail import send_mail
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, render, redirect
+from django.db.models import Count
 from taggit.models import Tag
 
 from .forms import *
@@ -18,6 +19,7 @@ def post_list(request, tag_slug=None):
     paginator = Paginator(object_list, 12)  # number of posts to show per page
     page = request.GET.get('page')
     
+    
 
     try:
         posts = paginator.page(page)
@@ -32,7 +34,8 @@ def post_list(request, tag_slug=None):
         'page': page,
         'posts': posts,
         'object_list': object_list.count(),
-        'tag': tag
+        'tag': tag,
+        
     }
 
     return render(request, 'blog/post/index.html', context)
@@ -41,6 +44,12 @@ def post_list(request, tag_slug=None):
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post, status='published',
                             publish__year=year, publish__month=month, publish__day=day)
+    
+    # List Similar posts
+    post_tag_ids = post.tags.values_list('id', flat=True)
+    similar_posts = Post.published.filter(tags__in=post_tag_ids).exclude(id=post.id)
+    similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:5]
+
 
     # list the active comments for this post
     # we use post.comments.filter() bcos we added related_name='comment' to the comments model
@@ -69,6 +78,7 @@ def post_detail(request, year, month, day, post):
         'comments': comments,
         'new_comment': new_comment,
         'comment_form': comment_form,
+        'similar_posts': similar_posts,
     }
 
     return render(request, 'blog/post/detail.html', context)

@@ -7,67 +7,70 @@
 {% block content %}
 <div class="container">
 	<div class="row">
-		<div class="col-lg-8 col-md-12 my-1">
 
+		<div>
 			<div class="blog-detail-cover-image pt-3">
 				<span class="d-flex justify-content-center p-5 text-white">
 					<h1>{{post.title}}</h1>
 				</span>
 			</div>
+		</div>
+
+		<div class="col-lg-8 col-md-12 my-1">
 			<p class="my-2 fw-bold"><span>Tags: {{ post.tags.all|join:', '}}</span></p>
-			<p class="my-3 fw-bold opacity-75">Publishd {{post.publish}} <span class="mx-2">By {{post.author}}</span></p>
+			<p class="my-3 fw-bold opacity-75">Publishd {{post.publish}} <span class="mx-2">By {{post.author}}</span>
+			</p>
 			<div class="text-justify">
 				{{post.body|safe|linebreaks}}
 			</div>
 		</div>
 
-		<div class="col-lg-4 my-5 pt-5 d-none d-lg-block">
+		<div class="col-lg-4 my-2 d-none d-lg-block">
 			{% include "blog/partials/sidebar.html" %}
-			{% block sidebar %}
-			<h2 class="text-center">Similar Posts</h2>
-			{% endblock sidebar %}
 		</div>
 	</div>
 
-	<p>
-		<a class="btn btn-primary btn-lg" href="{% url 'blog:post_share' post.id %}">
-			Share post
-			<span class="text-danger">
-				<i class="bi bi-google"></i>
+</div>
+
+<p>
+	<a class="btn btn-primary btn-lg" href="{% url 'blog:post_share' post.id %}">
+		Share post
+		<span class="text-danger">
+			<i class="bi bi-google"></i>
+		</span>
+	</a>
+</p>
+
+<div class="row py-5">
+	<div class="col-md-6">
+		{% with comments.count as total_comments %}
+		<h2>
+			{{ total_comments }} comment{{ total_comments|pluralize }}
+		</h2>
+		{% endwith %}
+
+		{% for comment in comments %}
+		<div class="border-start border-{{comment.color}} border-5 px-4 mb-5">
+			<p>Comment {{forloop.revcounter }} by {{comment.name}}</p>
+			<div>
+				{{ comment.body|linebreaks }}
+			</div>
+		</div>
+		{% empty %}
+		<h3>There are no comments!</h3>
+		{% endfor %}
+	</div>
+
+	<div class="col-md-6">
+		<h3 class="text-center">Add a comment</h3>
+		<form action="" method="POST">
+			{% csrf_token %}
+			{{comment_form|crispy}}
+			<span class=" d-flex justify-content-center">
+				<input type="submit" class="btn btn-primary my-2 col-12" value="Add Comment">
 			</span>
-		</a>
-	</p>
-
-	<div class="row py-5">
-		<div class="col-md-6">
-			{% with comments.count as total_comments %}
-				<h2>
-					{{ total_comments }} comment{{ total_comments|pluralize }}
-				</h2>
-			{% endwith %}
-
-			{% for comment in comments %}
-				<div class="border-start border-{{comment.color}} border-5 px-4 mb-5">
-					<p>Comment {{forloop.revcounter }} by {{comment.name}}</p>
-					<div class="">
-						{{ comment.body|linebreaks }}
-					</div>
-				</div>
-			{% empty %}
-			<h3>There are no comments!</h3>
-			{% endfor %}
-		</div>
-
-		<div class="col-md-6">
-			<h3 class="text-center">Add new comment</h3>
-			<form action="" method="POST">
-				{% csrf_token %}
-				{{comment_form|crispy}}
-				<span class=" d-flex justify-content-center">
-					<input type="submit" class="btn btn-primary my-2 col-12" value="Add Comment">
-				</span>
-			</form>
-		</div>
+		</form>
 	</div>
+</div>
 </div>
 {% endblock content %}
