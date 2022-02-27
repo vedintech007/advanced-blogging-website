@@ -1,0 +1,33 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Login Page{% endblock title %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+	<div class="row mt-5">
+		<div class="col-md-6 offset-md-3">
+			{% for message in messages %}
+			{% if message %}
+			<div class="alert alert-{{message.tags}} alert-dismissible fade show text-center">
+				{{ message }}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			{% endif %}
+			{% endfor %}
+			<div class="border p-3 bg-white">
+				<h3>Login Page</h3>
+				<hr>
+				<form action="" method="post">
+					{% csrf_token %}
+					{{form|crispy}}
+					<input class="btn btn-success col-6 my-4" type="submit" value="Login">
+					<a class="mx-4 btn" href="{% url 'user:password_reset' %}">Forgot Password?</a>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

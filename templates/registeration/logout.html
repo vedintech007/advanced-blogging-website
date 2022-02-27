@@ -1,0 +1,21 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Logout Page{% endblock title %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+	<div class="row mt-5">
+		<div class="col-md-6">
+			<div class="border p-3 bg-white">
+				<h3>Logout Page</h3>
+				<hr>
+				<div class="alert alert-danger">
+					<h3>You have been logged out</h3>
+				</div>
+
+				<a class="btn btn-info py-2 col-12 my-2 fs-3" href="{% url 'user:user-login' %}">Login</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

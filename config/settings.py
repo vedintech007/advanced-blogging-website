@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     
     # my apps
     'blog.apps.BlogConfig',
+    'users.apps.UsersConfig',
 
     # third party apps
     'ckeditor',
@@ -142,6 +143,12 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# LOGIN_URL = 'user:user-login'
+
+LOGIN_REDIRECT_URL = "blog:post_list"
+
+# LOGOUT_REDIRECT_URL = 'blog:post_list'
 
 # Django Email sending configuration
 email = config("MY_EMAIL_ADDRESS")

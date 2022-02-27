@@ -1,0 +1,62 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Profile Page{% endblock title %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				{% for message in messages %}
+				{% if message %}
+				<div class="alert alert-{{message.tags}} alert-dismissible fade show text-center">
+					{{ message }}
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				{% endif %}
+				{% endfor %}
+				<div class="card-header bg-info text-white">
+					Profile Page
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-8">
+							<span class="h4"> Profile Information</span> <a class="btn btn-info btn-sm float-right"
+								href="{% url 'user:user-profile-update' %}">Edit</a>
+							<hr>
+							<table class="table bg-white table-borderless">
+								<tbody>
+									<tr>
+										<th scope="row">Name</th>
+										<td>{{user.username|title}}</td>
+									</tr>
+									<tr>
+										<th scope="row">Email</th>
+										<td>{{user.email}}</td>
+									</tr>
+									<tr>
+										<th scope="row">Phone</th>
+										<td>{{user.profile.phone}}</td>
+									</tr>
+									<tr>
+										<th scope="row">Address</th>
+										<td>{{user.profile.address}}</td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+						<div class="col-md-4">
+							<img class="img-thumbnail" src="{{user.profile.image.url}}" alt="My profile image">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+{% endblock content %}
