@@ -46,6 +46,10 @@
 
 				</div>
 			</div>
+			{% empty %}
+			<div class="text-center">
+				<h3>There are no blogs yet...</h3>
+			</div>
 			{% endfor %}
 
 			{% if object_list > 9 %}
