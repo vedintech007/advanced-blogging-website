@@ -8,8 +8,7 @@
 				{{post.title}}
 			</a>
 			{% empty %}
-			<a class="text-dark fs-6 py-1 nav-link disabled"
-				href="{{ post.get_absolute_url }}">
+			<a class="text-dark fs-6 py-1 nav-link disabled" href="{{ post.get_absolute_url }}">
 				No Similar Posts
 			</a>
 			{% endfor %}
@@ -27,8 +26,22 @@
 			{% endfor %}
 		</div>
 	</div>
+
 	<div class="pt-4">
 		<h2>Latest Posts</h2>
 		{% show_latest_posts %}
 	</div>
+
+	<div class="pt-4">
+		<h2>Most Commented</h2>
+		{% get_most_commented_posts as most_commented_posts %}
+		<div class="row">
+			{% for post in most_commented_posts %}
+			<a class="text-dark fs-6 py-1 sidebar-link" href="{{ post.get_absolute_url }}">
+				{{post.title}}
+			</a>
+			{% endfor %}
+		</div>
+	</div>
+
 </div>
