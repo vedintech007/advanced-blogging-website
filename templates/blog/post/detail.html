@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Blog Details Page{% endblock title %}
 {% load crispy_forms_tags %}
-<!--|crispy-->
+
 
 {% block content %}
 <div class="container">
@@ -28,6 +28,7 @@
 		<div class="col-lg-4 my-2 d-none d-lg-block">
 			{% include "blog/partials/sidebar.html" %}
 		</div>
+
 	</div>
 
 </div>
@@ -42,9 +43,9 @@
 </p>
 
 <div class="row py-5">
-	<div class="col-md-6">
+	<div class="col-lg-6 col-md-12 col-sm-12">
 		{% with comments.count as total_comments %}
-		<h2>
+		<h2 class="text-center">
 			{{ total_comments }} comment{{ total_comments|pluralize }}
 		</h2>
 		{% endwith %}
@@ -57,20 +58,25 @@
 			</div>
 		</div>
 		{% empty %}
-		<h3>There are no comments!</h3>
+		<h3 class="text-center pb-4">There are no comments!</h3>
 		{% endfor %}
 	</div>
 
-	<div class="col-md-6">
+	<div class="col-lg-6 col-md-12 col-sm-12">
 		<h3 class="text-center">Add a comment</h3>
 		<form action="" method="POST">
 			{% csrf_token %}
 			{{comment_form|crispy}}
 			<span class=" d-flex justify-content-center">
-				<input type="submit" class="btn btn-primary my-2 col-12" value="Add Comment">
+				<input type="submit" class="btn btn-primary btn-lg my-2 col-12" value="Add Comment">
 			</span>
 		</form>
 	</div>
+
+	<div class="col-lg-12 my-2 d-lg-none d-md-block d-sm-block">
+		{% include "blog/partials/sidebar.html" %}
+		
+	</div>
 </div>
-</div>
+
 {% endblock content %}

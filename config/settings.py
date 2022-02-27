@@ -143,7 +143,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Email sending configuration
+# Django Email sending configuration
 email = config("MY_EMAIL_ADDRESS")
 password = config("MY_EMAIL_PASSWORD")
 
@@ -153,3 +153,12 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = email
 EMAIL_HOST_PASSWORD = password
+
+# Twilio SendGrid Config
+# api_key = config("SENDGRID_API_KEY")
+
+# EMAIL_HOST = 'smtp.sendgrid.net'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'apikey'
+# EMAIL_HOST_PASSWORD = api_key

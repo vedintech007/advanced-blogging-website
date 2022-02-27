@@ -1,3 +1,4 @@
+{% load blog_tags %}
 <div class="my-5 text-center">
 	<div class="pt-4">
 		<h2>Similar Blogs</h2>
@@ -5,6 +6,11 @@
 			{% for post in similar_posts %}
 			<a class="text-dark fs-6 py-1 sidebar-link" href="{{ post.get_absolute_url }}">
 				{{post.title}}
+			</a>
+			{% empty %}
+			<a class="text-dark fs-6 py-1 nav-link disabled"
+				href="{{ post.get_absolute_url }}">
+				No Similar Posts
 			</a>
 			{% endfor %}
 		</div>
@@ -20,5 +26,9 @@
 			{% if not forloop.last %} {% endif %}
 			{% endfor %}
 		</div>
+	</div>
+	<div class="pt-4">
+		<h2>Latest Posts</h2>
+		{% show_latest_posts %}
 	</div>
 </div>

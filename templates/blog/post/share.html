@@ -11,12 +11,15 @@
 			{% if sent %}
 			<h1 class="text-center">E-mail successfully sent</h1>
 			<p class="alert alert-{{message.tags}} alert-dismissible fade show text-center bg-success text-white">
-				"{{ post.title }}" was successfully sent to {{ form.cleaned_data.to }}.
+				"{{ post.title }}" was successfully sent to {{ form.cleaned_data.to }}
+				<i class="bi bi-envelope-check"></i>
 			</p>
 			<a class="btn btn-outline-success col-12" href="{% url 'blog:post_list' %}">Back to all Blog</a>
 			{% else %}
 			<div class="border p-3 bg-white">
-				<h4>Share "{{ post.title }}" via e-mail</h4>
+				<h4>Share "{{ post.title }}" via e-mail
+					<i class="bi bi-envelope-open"></i>
+				</h4>
 				<hr>
 				<form method="POST">
 					{% csrf_token %}

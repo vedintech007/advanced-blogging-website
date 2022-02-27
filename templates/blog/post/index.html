@@ -9,24 +9,24 @@
 
 		<div class="my-3">
 			{% if tag %}
-			<h3>Posts tagged with "{{tag.name}}"</h3>
+			<h3>{{object_list}} Post{{object_list|pluralize}} tagged with "{{tag.name}}"</h3>
 			{% endif %}
 		</div>
 
 		<div class="row">
 			{% for post in posts %}
 			<div class="col-md-6 col-lg-4 col-xl-4 col-xxl-3 my-3">
-				<div class="card">
+				<div class="card shadow">
 					<div class="card-image">
 						<img class="img-fluid cover-image" src="{{ post.cover_image.url }}"
 							alt="{{ post.title }}'s blog cover image" draggable="false">
 					</div>
-					<div class="card-title mt-4">
+					<div class="card-title mt-4 p-1">
 						<a class="text-decoration-none text-info fs-3 fw-light"
 							href="{{post.get_absolute_url}}">{{ post.title }}</a>
 					</div>
 
-					<div class="mb-4">
+					<div class="mb-4 p-1">
 						Tags:
 						{% for tag in post.tags.all %}
 						<a class="text-decoration-none text-info" href="{% url 'blog:post_list_by_tag' tag.slug %}">
@@ -36,7 +36,7 @@
 						{% endfor %}
 					</div>
 
-					<div class="card-text lh-lg opacity-75">
+					<div class="card-text lh-lg opacity-75 p-1">
 						{{post.body|striptags|truncatewords_html:22}}
 					</div>
 
@@ -47,15 +47,13 @@
 				</div>
 			</div>
 			{% endfor %}
+
 			{% if object_list > 9 %}
-			{% include "blog/partials/pagination.html" %}
+				{% include "blog/partials/pagination.html" %}
 			{% endif %}
+			
 		</div>
 
 	</div>
-
-	<!-- <div class="col-lg-2 my-5 pt-4 d-none d-lg-block">
-		{% include "blog/partials/sidebar.html" %}
-	</div> -->
 </div>
 {% endblock content %}

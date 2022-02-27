@@ -1,0 +1,8 @@
+<!-- This is the custom inclusion_tag i created -->
+<div class="row">
+	{% for post in latest_posts %}
+	<a class="text-dark fs-6 py-1 sidebar-link" href="{{ post.get_absolute_url }}">
+		{{post.title}}
+	</a>
+	{% endfor %}
+</div>

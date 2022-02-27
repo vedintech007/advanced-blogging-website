@@ -18,8 +18,6 @@ def post_list(request, tag_slug=None):
 
     paginator = Paginator(object_list, 12)  # number of posts to show per page
     page = request.GET.get('page')
-    
-    
 
     try:
         posts = paginator.page(page)
@@ -35,7 +33,7 @@ def post_list(request, tag_slug=None):
         'posts': posts,
         'object_list': object_list.count(),
         'tag': tag,
-        
+
     }
 
     return render(request, 'blog/post/index.html', context)
@@ -44,12 +42,13 @@ def post_list(request, tag_slug=None):
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post, status='published',
                             publish__year=year, publish__month=month, publish__day=day)
-    
+
     # List Similar posts
     post_tag_ids = post.tags.values_list('id', flat=True)
-    similar_posts = Post.published.filter(tags__in=post_tag_ids).exclude(id=post.id)
-    similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:5]
-
+    similar_posts = Post.published.filter(
+        tags__in=post_tag_ids).exclude(id=post.id)
+    similar_posts = similar_posts.annotate(same_tags=Count(
+        'tags')).order_by('-same_tags', '-publish')[:5]
 
     # list the active comments for this post
     # we use post.comments.filter() bcos we added related_name='comment' to the comments model
@@ -98,8 +97,16 @@ def post_share(request, post_id):
             cd = form.cleaned_data
             # send email
             post_url = request.build_absolute_uri(post.get_absolute_url())
-            subject = f"{cd['name']} recommends you read {post.title}"
-            message = f"Hi there, its {cd['name']} here. I want recommend the blog titled {post.title} at {post_url} for you to read.\n\n Read {cd['name']}\'s comments: {cd['comments']}"
+            subject = f"{cd['name']} recommends {post.title}"
+            message = f"""
+            Blog Recommended By: {cd['name']}
+            
+            Blog title: {post.title}
+            
+            {cd['name']} Comments: {cd['comments']}
+                        
+            Link to Blog: {post_url}
+            """
             send_mail(subject, message, 'admin@vedintechblog.com', [cd['to']])
             sent = True
     else:
