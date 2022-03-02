@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     # my apps
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
@@ -86,10 +86,28 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
+# Postgresql database configuration
+
+DB_NAME = config('DB_NAME')
+DB_USERNAME = config('DB_USERNAME')
+DB_PASSWORD = config('DB_PASSWORD')
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': DB_NAME,
+        'USER': DB_USERNAME,
+        'PASSWORD': DB_PASSWORD,
+        'HOST': 'localhost',
+        'PORT': 5432
     }
 }
 
@@ -144,11 +162,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# LOGIN_URL = 'user:user-login'
-
-LOGIN_REDIRECT_URL = "blog:post_list"
-
-# LOGOUT_REDIRECT_URL = 'blog:post_list'
 
 # Django Email sending configuration
 email = config("MY_EMAIL_ADDRESS")
