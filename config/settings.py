@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # django inbuilt apps
+    'django.contrib.postgres',
 
     # my apps
     'blog.apps.BlogConfig',

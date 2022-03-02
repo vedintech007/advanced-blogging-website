@@ -24,6 +24,16 @@
 			<div class="text-justify">
 				{{post.body|safe|linebreaks}}
 			</div>
+
+			<!-- Share Post Through Google -->
+			<p class="py-3">
+				<a class="btn btn-primary btn-lg" href="{% url 'blog:post_share' post.id %}">
+					Share post
+					<span class="text-danger">
+						<i class="bi bi-google"></i>
+					</span>
+				</a>
+			</p>
 		</div>
 
 		<div class="col-lg-4 my-2 d-none d-lg-block">
@@ -34,14 +44,7 @@
 
 </div>
 
-<p>
-	<a class="btn btn-primary btn-lg" href="{% url 'blog:post_share' post.id %}">
-		Share post
-		<span class="text-danger">
-			<i class="bi bi-google"></i>
-		</span>
-	</a>
-</p>
+
 
 <div class="row py-5">
 	<div class="col-lg-6 col-md-12 col-sm-12">

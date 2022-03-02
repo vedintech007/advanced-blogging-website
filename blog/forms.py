@@ -23,3 +23,18 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('name', 'email', 'body')
+        
+
+class SearchForm(forms.Form):
+    query = forms.CharField(
+        required=False,
+        label="",
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Search for blogs...',
+                'class': 'form-control my-1 p-3 fs-4',
+                'type': 'search',
+                'list': 'suggestions',
+            }
+        )
+    )

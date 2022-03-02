@@ -6,14 +6,26 @@
 {% block content %}
 <div class="row">
 	<div class="col-lg-12 col-md-12 my-1">
-		<input class="form-control my-1 p-3 fs-4" type="search" placeholder="Search for blogs..">
 
-		<div class="my-3">
-			{% if tag %}
-			<h3>{{object_list}} Post{{object_list|pluralize}} tagged with "{{tag.name}}"</h3>
-			{% endif %}
-		</div>
+		{% include "blog/post/search_form.html" %}
 
+		<!-- Activity message display -->
+
+		{% if tag %}
+			<div class="my-3">
+				<h3>{{object_list}} Post{{object_list|pluralize}} tagged with "{{tag.name}}"</h3>
+			</div>
+		{% endif %}
+
+		{% if blog_filtered %}
+			<div class="my-3">
+				<h3>{{object_list}} Post{{object_list|pluralize}} available for your filter</h3>
+			</div>
+		{% endif %}
+
+		<!-- End Activity message display -->
+		
+		<!-- All Post Section -->
 		<div class="row">
 			{% for post in posts %}
 			<div class="col-md-6 col-lg-4 col-xl-4 col-xxl-3 my-3">
@@ -49,7 +61,12 @@
 			</div>
 			{% empty %}
 			<div class="text-center">
+				{% if blog_filtered %}
+				<h3 class="py-5">Oops, No Blogs found...</h3>
+				<a class="btn btn-success btn-lg" href="{% url 'blog:post_list' %}">Back To Blogs</a>
+				{% else %}
 				<h3>There are no blogs yet...</h3>
+				{% endif %}
 			</div>
 			{% endfor %}
 
@@ -58,6 +75,7 @@
 			{% endif %}
 			
 		</div>
+		<!-- All Post Section -->
 
 	</div>
 </div>

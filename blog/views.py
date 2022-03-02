@@ -1,7 +1,11 @@
+from unittest import result
+
+from django.contrib.postgres.search import (SearchQuery, SearchRank,
+                                            SearchVector, TrigramSimilarity)
 from django.core.mail import send_mail
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Count
+from django.shortcuts import get_object_or_404, redirect, render
 from taggit.models import Tag
 
 from .forms import *
@@ -11,11 +15,35 @@ from .models import *
 def post_list(request, tag_slug=None):
     object_list = Post.published.all()
     tag = None
+    form = SearchForm()
+    query = None
+    blog_filtered = False
 
+    # Blog Search Filter logic
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+
+            if query == '' or query == None:
+                return redirect('blog:post_list')
+            else:
+                # search_vector = SearchVector(
+                #     'title', weight='A') + SearchVector('body', weight='B')
+
+                # search_query = SearchQuery(query)
+
+                object_list = Post.published.annotate(
+                    similarity=TrigramSimilarity('title', query),
+                ).filter(similarity__gte=0.1).order_by('-similarity')
+                blog_filtered = True
+
+    # Tag Filter logic
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
         object_list = object_list.filter(tags__in=[tag])
 
+    # Pagination logic
     paginator = Paginator(object_list, 12)  # number of posts to show per page
     page = request.GET.get('page')
 
@@ -33,7 +61,9 @@ def post_list(request, tag_slug=None):
         'posts': posts,
         'object_list': object_list.count(),
         'tag': tag,
-
+        'form': form,
+        'query': query,
+        'blog_filtered': blog_filtered
     }
 
     return render(request, 'blog/post/index.html', context)
@@ -41,7 +71,7 @@ def post_list(request, tag_slug=None):
 
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post, status='published',
-                            publish__year=year, publish__month=month, publish__day=day)
+                             publish__year=year, publish__month=month, publish__day=day)
 
     # List Similar posts
     post_tag_ids = post.tags.values_list('id', flat=True)
@@ -99,14 +129,14 @@ def post_share(request, post_id):
             post_url = request.build_absolute_uri(post.get_absolute_url())
             subject = f"{cd['name']} recommends {post.title}"
             message = f"""
-            Blog Recommended By: {cd['name']}
-            
-            Blog title: {post.title}
-            
-            {cd['name']} Comments: {cd['comments']}
-                        
-            Link to Blog: {post_url}
-            """
+			Blog Recommended By: {cd['name']}
+			
+			Blog title: {post.title}
+			
+			{cd['name']} Comments: {cd['comments']}
+						
+			Link to Blog: {post_url}
+			"""
             send_mail(subject, message, 'admin@vedintechblog.com', [cd['to']])
             sent = True
     else:

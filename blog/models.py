@@ -7,13 +7,6 @@ from django.urls import reverse
 from django.utils import timezone
 from taggit.managers import TaggableManager
 
-BOOSTRAP_COLOR = (
-    'primary', 'secondary',
-    'success', 'info', 'warning',
-    'danger', 'dark'
-)
-
-color = random.choice(BOOSTRAP_COLOR)
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
@@ -41,7 +34,7 @@ class Post(models.Model):
 
     objects = models.Manager()  # The default manager eg. Post.objects.all()
     published = PublishedManager()  # Our custom manager eg. Post.published.all()
-    
+
     tags = TaggableManager()
 
     class Meta:
@@ -60,10 +53,9 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    
-    
+
     # color = random.choice(BOOSTRAP_COLOR)
-    
+
     # Sorry i know this comment is too long but i wrote it for someone, please ignore.
     """ The related_name attribute allows you to name the attribute that you use for
     the relationship from the related object back to this one. After defining this, you
@@ -76,7 +68,6 @@ class Comment(models.Model):
     name = models.CharField(max_length=80)
     email = models.EmailField()
     body = models.TextField()
-    color = models.CharField(max_length=11, default=color)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
