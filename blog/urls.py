@@ -13,4 +13,9 @@ urlpatterns = [
     path('new/blog/post/', new_blog_post, name="new_blog"),
     path('blog/posts/', user_blogs, name="user_blogs"),
     path('blog/posts/details/<str:pk>/', user_blog_detail, name="user_blog_detail"),
+    
+    path('pending/blog/posts/', user_pending_blogs, name="pending_blogs"),
+    path('rejected/blog/posts/', user_rejected_blogs, name="rejected_blogs"),
+    
+    
 ]

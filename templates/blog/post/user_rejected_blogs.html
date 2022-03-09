@@ -1,27 +1,27 @@
 {% extends "blog/base.html" %}
 {% load static %}
 {% load blog_tags %}
-{% block title %}User Blogs Page{% endblock title %}
+{% block title %}Rejected Blogs Page{% endblock title %}
 
 {% block content %}
 {% if request.user.is_authenticated %}
-
+{% if request.user.is_staff %}
 <div class="row">
 	<div class="col-lg-12 col-md-12 my-1">
 
 		{% include "blog/post/search_form.html" %}
 
 		{% if blog_filtered %}
-			<div class="my-3">
-				<h3>{{object_list}} Post{{object_list|pluralize}} available for your filter</h3>
-			</div>
+		<div class="my-3">
+			<h3>{{object_list}} Post{{object_list|pluralize}} available for your filter</h3>
+		</div>
 		{% else %}
 		<div class="my-4 text-center">
-			<h3>Your Personal Blogs</h3>
+			<h3>Rejected Blogs</h3>
 		</div>
 		{% endif %}
-		
-		<!-- All Post Section Blog Home Page-->
+
+		<!-- All Post Section -->
 		<div class="row">
 			{% for post in posts %}
 			<div class="col-md-6 col-lg-4 col-xl-4 col-xxl-3 my-3">
@@ -36,14 +36,6 @@
 					</div>
 
 					<div class="card-footer text-info">
-						{% if post.status == "draft" %}
-						Status: <span class="text-info">Pending</span>
-						{% endif %}
-
-						{% if post.status == "published" %}
-						Status: <span class="text-info">Published</span>
-						{% endif %}
-
 						{% if post.status == "rejected" %}
 						Status: <span class="text-info">Rejected</span>
 						{% endif %}
@@ -64,13 +56,19 @@
 			{% endfor %}
 
 			{% if object_list > 9 %}
-				{% include "blog/partials/pagination.html" %}
+			{% include "blog/partials/pagination.html" %}
 			{% endif %}
-			
+
 		</div>
 		<!-- All Post Section -->
 
 	</div>
 </div>
+{% else %}
+<div class="text-center">
+	<h3 class="my-5">You are not allowed to access this page and you know that right</h3>
+	<a class="btn btn-success btn-lg" href="{% url 'blog:post_list' %}">Return To Blogs</a>
+</div>
+{% endif %}
 {% endif %}
 {% endblock content %}

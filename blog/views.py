@@ -10,6 +10,7 @@ from django.contrib import messages
 from .forms import *
 from .models import *
 
+
 @login_required
 def new_blog_post(request):
     form = BlogPostForm()
@@ -20,13 +21,14 @@ def new_blog_post(request):
             obj.author = request.user
             title = obj.title
             obj.save()
-            messages.success(request, f'Blog <b>"{title}"</b> Created successfully!')
+            messages.success(
+                request, f'Blog <b>"{title}"</b> Created successfully!')
             return redirect('blog:user_blogs')
-    
+
     context = {
         'form': form,
     }
-    
+
     return render(request, 'blog/post/new_blog.html', context)
 
 
@@ -48,7 +50,7 @@ def post_list(request, tag_slug=None):
             else:
                 object_list = Post.published.annotate(
                     search=SearchVector('title', 'body'),
-                    ).filter(search=query)
+                ).filter(search=query)
                 blog_filtered = True
 
     # Tag Filter logic
@@ -82,77 +84,9 @@ def post_list(request, tag_slug=None):
     return render(request, 'blog/post/index.html', context)
 
 
-@login_required
-def user_blogs(request):
-    object_list = Post.objects.filter(author=request.user).order_by('-created')
-    form = SearchForm()
-    query = None
-    blog_filtered = False
-
-    # Blog Search Filter logic
-    if 'query' in request.GET:
-        form = SearchForm(request.GET)
-        if form.is_valid():
-            query = form.cleaned_data['query']
-
-            if query == '' or query == None:
-                return redirect('blog:user_blogs')
-            else:
-                object_list = Post.objects.annotate(
-                    search=SearchVector('title', 'body', 'status'),
-                    ).filter(search=query,author=request.user)
-                blog_filtered = True
-
-    # Pagination logic
-    paginator = Paginator(object_list, 12)  # number of posts to show per page
-    page = request.GET.get('page')
-
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        # if page is not an integer deliver the first page
-        posts = paginator.page(1)
-    except EmptyPage:
-        # if page is out of range deliver the last page of the results
-        posts = paginator.page(paginator.num_pages)
-
-    context = {
-        'page': page,
-        'posts': posts,
-        'object_list': object_list.count(),
-        'form': form,
-        'query': query,
-        'blog_filtered': blog_filtered,
-    }
-    
-    return render(request, 'blog/post/user_blogs.html', context)
-
-def user_blog_detail(request, pk):
-    post = Post.objects.get(id=pk)
-
-    # List Similar posts
-    post_tag_ids = post.tags.values_list('id', flat=True)
-    similar_posts = Post.published.filter(
-        tags__in=post_tag_ids).exclude(id=post.id)
-    similar_posts = similar_posts.annotate(same_tags=Count(
-        'tags')).order_by('-same_tags', '-publish')[:5]
-
-    # list the active comments for this post
-    # we use post.comments.filter() bcos we added related_name='comment' to the comments model
-    comments = post.comment.filter(active=True)
-
-    context = {
-        'post': post,
-        'comments': comments,
-        'similar_posts': similar_posts,
-    }
-
-    return render(request, 'blog/post/user_blog_details.html', context)
-
-
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post, status='published',
-                            publish__year=year, publish__month=month, publish__day=day)
+                             publish__year=year, publish__month=month, publish__day=day)
 
     # List Similar posts
     post_tag_ids = post.tags.values_list('id', flat=True)
@@ -230,3 +164,164 @@ def post_share(request, post_id):
     }
 
     return render(request, 'blog/post/share.html', context)
+
+
+@login_required
+def user_blogs(request):
+    object_list = Post.objects.filter(author=request.user).order_by('-created')
+    form = SearchForm()
+    query = None
+    blog_filtered = False
+
+    # Blog Search Filter logic
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+
+            if query == '' or query == None:
+                return redirect('blog:user_blogs')
+            else:
+                object_list = Post.objects.annotate(
+                    search=SearchVector('title', 'body', 'status'),
+                ).filter(search=query, author=request.user)
+                blog_filtered = True
+
+    # Pagination logic
+    paginator = Paginator(object_list, 12)  # number of posts to show per page
+    page = request.GET.get('page')
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # if page is not an integer deliver the first page
+        posts = paginator.page(1)
+    except EmptyPage:
+        # if page is out of range deliver the last page of the results
+        posts = paginator.page(paginator.num_pages)
+
+    context = {
+        'page': page,
+        'posts': posts,
+        'object_list': object_list.count(),
+        'form': form,
+        'query': query,
+        'blog_filtered': blog_filtered,
+    }
+
+    return render(request, 'blog/post/user_blogs.html', context)
+
+
+@login_required
+def user_blog_detail(request, pk):
+    post = Post.objects.get(id=pk)
+
+    # List Similar posts
+    post_tag_ids = post.tags.values_list('id', flat=True)
+    similar_posts = Post.published.filter(
+        tags__in=post_tag_ids).exclude(id=post.id)
+    similar_posts = similar_posts.annotate(same_tags=Count(
+        'tags')).order_by('-same_tags', '-publish')[:5]
+
+    # list the active comments for this post
+    # we use post.comments.filter() bcos we added related_name='comment' to the comments model
+    comments = post.comment.filter(active=True)
+
+    context = {
+        'post': post,
+        'comments': comments,
+        'similar_posts': similar_posts,
+    }
+
+    return render(request, 'blog/post/user_blog_details.html', context)
+
+
+@login_required
+def user_pending_blogs(request):
+    object_list = Post.objects.filter(status='draft').order_by('-created')
+    form = SearchForm()
+    query = None
+    blog_filtered = False
+
+    # Blog Search Filter logic
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+
+            if query == '' or query == None:
+                return redirect('blog:user_blogs')
+            else:
+                object_list = Post.objects.annotate(
+                    search=SearchVector('title', 'body', 'status', 'author'),
+                ).filter(search=query, status='draft')
+                blog_filtered = True
+
+    # Pagination logic
+    paginator = Paginator(object_list, 12)  # number of posts to show per page
+    page = request.GET.get('page')
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # if page is not an integer deliver the first page
+        posts = paginator.page(1)
+    except EmptyPage:
+        # if page is out of range deliver the last page of the results
+        posts = paginator.page(paginator.num_pages)
+
+    context = {
+        'page': page,
+        'posts': posts,
+        'object_list': object_list.count(),
+        'form': form,
+        'query': query,
+        'blog_filtered': blog_filtered,
+    }
+
+    return render(request, 'blog/post/user_pending_blogs.html', context)
+
+@login_required
+def user_rejected_blogs(request):
+    object_list = Post.objects.filter(status='rejected').order_by('-created')
+    form = SearchForm()
+    query = None
+    blog_filtered = False
+
+    # Blog Search Filter logic
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+
+            if query == '' or query == None:
+                return redirect('blog:user_blogs')
+            else:
+                object_list = Post.objects.annotate(
+                    search=SearchVector('title', 'body', 'status', 'author'),
+                ).filter(search=query, status='rejected')
+                blog_filtered = True
+
+    # Pagination logic
+    paginator = Paginator(object_list, 12)  # number of posts to show per page
+    page = request.GET.get('page')
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # if page is not an integer deliver the first page
+        posts = paginator.page(1)
+    except EmptyPage:
+        # if page is out of range deliver the last page of the results
+        posts = paginator.page(paginator.num_pages)
+
+    context = {
+        'page': page,
+        'posts': posts,
+        'object_list': object_list.count(),
+        'form': form,
+        'query': query,
+        'blog_filtered': blog_filtered,
+    }
+
+    return render(request, 'blog/post/user_rejected_blogs.html', context)

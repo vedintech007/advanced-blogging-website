@@ -8,7 +8,8 @@
 		<a class="navbar-brand" href="{% url 'blog:post_list' %}">
 			<span class="text-info"><i class="bi bi-vinyl"></i></span>
 			<span class="text-info">VED</span><span class="text-danger">IN</span><span>TECH</span>
-			<span class="text-secondary fw-bold">Blog</span></a>
+			<span class="text-secondary fw-bold">Blog</span>
+		</a>
 		<button class="navbar-toggler border-none text-dark rounded-pill" type="button" data-bs-toggle="collapse"
 			data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
 			aria-label="Toggle navigation">
@@ -36,9 +37,15 @@
 						<li>
 							<hr class="dropdown-divider">
 						</li>
+						{% if request.user.is_staff %}
+						<li><a class="dropdown-item" href="{% url 'blog:pending_blogs' %}">Pending Blogs</a></li>
+						<li><a class="dropdown-item" href="{% url 'blog:rejected_blogs' %}">Rejected Blogs</a></li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
+						{% endif %}
 						<li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
 						<li><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
-						<li><a class="dropdown-item" href="{% url 'password_reset' %}">Reset Password</a></li>
 						<li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
 					</ul>
 				</li>
@@ -49,14 +56,11 @@
 						Docs
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item" href="#">Interface Walkthrough</a></li>
 						<li><a class="dropdown-item" href="#">How to write a post</a></li>
-						<li><a class="dropdown-item" href="#">Working with images</a></li>
-						<li><a class="dropdown-item" href="#">What Are Tags</a></li>
 						<li>
 							<hr class="dropdown-divider">
 						</li>
-						<li><a class="dropdown-item" href="#">Terms And Conditions</a></li>
+						<li><a class="dropdown-item" href="#">The Rich Text Editor</a></li>
 
 					</ul>
 				</li>
@@ -74,7 +78,9 @@
 	<div class="container">
 		<a class="navbar-brand" href="{% url 'blog:post_list' %}">
 			<span class="text-info"><i class="bi bi-vinyl"></i></span>
-			<span>VEDINTECH Blog</span></a>
+			<span class="text-info">VED</span><span class="text-danger">IN</span><span>TECH</span>
+			<span class="text-secondary fw-bold">Blog</span>
+		</a>
 		<button class="navbar-toggler border-none text-dark rounded-pill" type="button" data-bs-toggle="collapse"
 			data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
 			aria-label="Toggle navigation">
