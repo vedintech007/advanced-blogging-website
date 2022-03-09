@@ -6,7 +6,7 @@
 {% block content %}
 <div class="container">
 	<div class="row my-4">
-		<div class="col-md-8">
+		<div class="col-md-8 offset-md-2">
 			<div class="card">
 				<div class="card-header bg-info text-white">
 					Profile Update Page
@@ -19,10 +19,8 @@
 							<form action="" method="POST" enctype="multipart/form-data">
 								{% csrf_token %}
 								{{ user_form|crispy }}
-								{{ profile_form|crispy }}
-								<input class="btn btn-danger row my-4 col-md-4" type="submit" value="Update Info">
-								<span class="col-md-4"></span>
-								<a class="btn btn-info row my-4 col-md-4" href="">Cancel Update</a>
+								<input class="btn btn-success col-6 my-4" type="submit" value="Update Info">
+									<a class="mx-auto btn btn-outline-danger col-lg-5" href="{% url 'blog:post_list' %}">Cancel Update</a>
 							</form>
 						</div>
 					</div>

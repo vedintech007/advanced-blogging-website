@@ -1,7 +1,8 @@
 {% extends "blog/base.html" %}
 
-{% block title %}Password Change Page{% endblock title %}
+{% block title %}Login Page{% endblock title %}
 {% load crispy_forms_tags %}
+
 {% block content %}
 <div class="container">
 	<div class="row mt-5">
@@ -17,15 +18,13 @@
 			{% endif %}
 			{% endfor %}
 			<div class="border p-3 bg-white">
-				<h2 class="text-center">Password Change Page</h2>
-				<p>Please enter your old password, for security's sake, and then enter
-					your new password twice so we can verify you typed it in correctly.</p>
+				<h3>Login Page</h3>
 				<hr>
 				<form action="" method="post">
 					{% csrf_token %}
 					{{form|crispy}}
-					<input class="btn btn-danger mx-4 my-4 col-4" type="submit" value="Change Password">
-					<a class="btn btn-info col-4" href="">Cancel</a>
+					<input class="btn btn-success col-6 my-4" type="submit" value="Login">
+					<a class="mx-4 btn" href="{% url 'password_reset' %}">Forgot Password?</a>
 				</form>
 			</div>
 		</div>

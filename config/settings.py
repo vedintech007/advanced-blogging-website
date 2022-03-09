@@ -165,6 +165,17 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Telling django to use your custom user model
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # For user to be able to login with email as well as default user method
+    'users.authentication.EmailAuthBackend',
+]
+
+AUTH_USER_MODEL = 'users.CustomUser'
 
 # Django Email sending configuration
 email = config("MY_EMAIL_ADDRESS")
@@ -177,11 +188,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = email
 EMAIL_HOST_PASSWORD = password
 
-# Twilio SendGrid Config
-# api_key = config("SENDGRID_API_KEY")
 
-# EMAIL_HOST = 'smtp.sendgrid.net'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'apikey'
-# EMAIL_HOST_PASSWORD = api_key
+LOGIN_REDIRECT_URL = 'blog:post_list'
+LOGOUT_REDIRECT_URL = 'blog:post_list'
+LOGIN_URL = 'login'
+
+SITE_ID = 1

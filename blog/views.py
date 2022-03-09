@@ -1,7 +1,6 @@
 from unittest import result
 
-from django.contrib.postgres.search import (SearchQuery, SearchRank,
-                                            SearchVector, TrigramSimilarity)
+from django.contrib.postgres.search import TrigramSimilarity
 from django.core.mail import send_mail
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count
@@ -71,7 +70,7 @@ def post_list(request, tag_slug=None):
 
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post, status='published',
-                             publish__year=year, publish__month=month, publish__day=day)
+                            publish__year=year, publish__month=month, publish__day=day)
 
     # List Similar posts
     post_tag_ids = post.tags.values_list('id', flat=True)

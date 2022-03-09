@@ -14,7 +14,7 @@
 						{% csrf_token %}
 						{{form|crispy}}
 						<input type="submit" value="Register" class="btn btn-success col-6 my-4">
-						<a class="mx-4 btn" href="{% url 'user:user-login' %}">Have an account? Login</a>
+						<a class="mx-4 btn" href="{% url 'login' %}">Have an account? Login</a>
 					</form>
 				</div>
 			</div>

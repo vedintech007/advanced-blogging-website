@@ -54,7 +54,7 @@
 					</div>
 
 					<div class="card-footer text-info">
-						Published {{ post.publish }}<br> By {{ post.author|upper }}
+						Published {{ post.publish }}<br> By {{ post.author.username|upper }}
 					</div>
 
 				</div>
@@ -65,7 +65,7 @@
 				<h3 class="py-5">Oops, No Blogs found...</h3>
 				<a class="btn btn-success btn-lg" href="{% url 'blog:post_list' %}">Back To Blogs</a>
 				{% else %}
-				<h3>There are no blogs yet...</h3>
+				<h3 class="my-5">There are no blogs yet...</h3>
 				{% endif %}
 			</div>
 			{% endfor %}

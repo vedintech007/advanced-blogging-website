@@ -1,11 +1,13 @@
 import random
 
 from ckeditor.fields import RichTextField
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from taggit.managers import TaggableManager
+
+from django.conf import settings
 
 
 class PublishedManager(models.Manager):
@@ -24,7 +26,7 @@ class Post(models.Model):
         upload_to="static/img/post_cover_images", null=True)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='blog_posts')
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blog_posts')
     body = RichTextField()
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)

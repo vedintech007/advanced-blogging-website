@@ -8,30 +8,28 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="card">
-				{% for message in messages %}
-				{% if message %}
-				<div class="alert alert-{{message.tags}} alert-dismissible fade show text-center">
-					{{ message }}
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				{% endif %}
-				{% endfor %}
-				<div class="card-header bg-info text-white">
+				<div class="card-header bg-info text-white h4 text-center">
 					Profile Page
 				</div>
-				<div class="card-body">
+				<div class="card-body my-2">
 					<div class="row">
 						<div class="col-md-8">
 							<span class="h4"> Profile Information</span> <a class="btn btn-info btn-sm float-right"
-								href="{% url 'user:user-profile-update' %}">Edit</a>
+								href="{% url 'profile_update' %}">Edit Profile</a>
 							<hr>
 							<table class="table bg-white table-borderless">
 								<tbody>
 									<tr>
-										<th scope="row">Name</th>
-										<td>{{user.username|title}}</td>
+										<th scope="row">Username</th>
+										<td>{{user.username}}</td>
+									</tr>
+									<tr>
+										<th scope="row">First Name</th>
+										<td>{{user.first_name|title}}</td>
+									</tr>
+									<tr>
+										<th scope="row">Last Name</th>
+										<td>{{user.last_name|title}}</td>
 									</tr>
 									<tr>
 										<th scope="row">Email</th>
@@ -39,18 +37,18 @@
 									</tr>
 									<tr>
 										<th scope="row">Phone</th>
-										<td>{{user.profile.phone}}</td>
+										<td>{{user.telephone}}</td>
 									</tr>
 									<tr>
 										<th scope="row">Address</th>
-										<td>{{user.profile.address}}</td>
+										<td>{{user.address}}</td>
 									</tr>
 								</tbody>
 							</table>
 
 						</div>
 						<div class="col-md-4">
-							<img class="img-thumbnail" src="{{user.profile.image.url}}" alt="My profile image">
+							<img class="img-thumbnail" src="{{user.image.url}}" alt="My profile image" draggable="false">
 						</div>
 					</div>
 				</div>
