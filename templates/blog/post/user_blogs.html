@@ -28,7 +28,7 @@
 					</div>
 					<div class="card-title mt-4 p-1">
 						<a class="text-decoration-none text-info fs-3 fw-light"
-							href="{{post.get_absolute_url}}">{{ post.title }}</a>
+							href="{% url 'blog:user_blog_detail' post.pk %}">{{ post.title }}</a>
 					</div>
 
 					<div class="mb-4 p-1">
@@ -57,7 +57,8 @@
 				<h3 class="py-5">Oops, No Blogs found...</h3>
 				<a class="btn btn-success btn-lg" href="{% url 'blog:post_list' %}">Back To Blogs</a>
 				{% else %}
-				<h3 class="my-5">There are no blogs yet...</h3>
+				<h3 class="my-5">You have no blogs posted yet...</h3>
+				<a class="btn btn-success btn-lg" href="{% url 'blog:new_blog' %}">Start Blogging Now</a>
 				{% endif %}
 			</div>
 			{% endfor %}

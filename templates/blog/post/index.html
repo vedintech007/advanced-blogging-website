@@ -39,7 +39,7 @@
 							href="{{post.get_absolute_url}}">{{ post.title }}</a>
 					</div>
 
-					<div class="mb-4 p-1">
+					<!-- <div class="mb-4 p-1">
 						Tags:
 						{% for tag in post.tags.all %}
 						<a class="text-decoration-none text-info" href="{% url 'blog:post_list_by_tag' tag.slug %}">
@@ -47,10 +47,10 @@
 						</a>
 						{% if not forloop.last %}, {% endif %}
 						{% endfor %}
-					</div>
+					</div> -->
 
 					<div class="card-text lh-lg opacity-75 p-1">
-						{{post.body|striptags|truncatewords_html:22}}
+						{{post.body|striptags|truncatewords_html:13}}
 					</div>
 
 					<div class="card-footer text-info">

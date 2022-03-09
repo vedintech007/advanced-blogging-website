@@ -7,10 +7,9 @@ from django.conf import settings
 User = settings.AUTH_USER_MODEL
 
 
-# Create your views here.
-
-
 def register(request):
+    if request.user.is_authenticated:
+        return redirect("blog:post_list")
     if request.method == "POST":
         user_form = RegistrationForm(request.POST)
         if user_form.is_valid():

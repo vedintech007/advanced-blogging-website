@@ -12,7 +12,19 @@
 		<div>
 			<div class="blog-detail-cover-image pt-3">
 				<span class="d-flex justify-content-center p-5 text-white">
-					<h1>{{post.title}}</h1>
+					<h1>{{post.title}} -
+						{% if post.status == "draft" %}
+						<span class="text-info">Status: Pending</span>
+						{% endif %}
+
+						{% if post.status == "published" %}
+						<span class="text-info">Status: Published</span>
+						{% endif %}
+
+						{% if post.status == "rejected" %}
+						<span class="text-info">Status: Rejected</span>
+						{% endif %}
+					</h1>
 				</span>
 			</div>
 		</div>
@@ -29,29 +41,27 @@
 			<!-- Share Post Through Google -->
 			<p class="py-3">
 				<div class="row">
-					<a class="btn btn-primary btn-lg col-md-3 m-2" href="{% url 'blog:post_share' post.id %}">
+
+					<a class="btn btn-primary btn-lg col-md-3 m-2" href="#">
 						Share post
 						<span class="text-danger">
 							<i class="bi bi-google"></i>
 						</span>
 					</a>
-					{% if request.user.is_authenticated %}
-						{% if request.user.id == post.author.id %}
-							<a class="btn btn-info btn-lg col-md-3 m-2" href="#">
-								Edit Post
-								<span class="text-dark">
-									<i class="bi bi-setting"></i>
-								</span>
-							</a>
 
-							<a class="btn btn-danger btn-lg col-md-3 m-2" href="#">
-								Delete Post
-								<span class="text-dark">
-									<i class="bi bi-delete"></i>
-								</span>
-							</a>
-						{% endif %}
-					{% endif %}
+					<a class="btn btn-info btn-lg col-md-3 m-2" href="#">
+						Edit Post
+						<span class="text-dark">
+							<i class="bi bi-setting"></i>
+						</span>
+					</a>
+
+					<a class="btn btn-danger btn-lg col-md-3 m-2" href="#">
+						Delete Post
+						<span class="text-dark">
+							<i class="bi bi-delete"></i>
+						</span>
+					</a>
 				</div>
 			</p>
 		</div>
@@ -64,9 +74,7 @@
 
 </div>
 
-
-
-<div class="row py-5">
+<div class="row py-2">
 	<div class="col-lg-6 col-md-12 col-sm-12">
 		{% with comments.count as total_comments %}
 		<h2 class="text-center">
@@ -86,7 +94,7 @@
 		{% endfor %}
 	</div>
 
-	<div class="col-lg-6 col-md-12 col-sm-12">
+	<!-- <div class="col-lg-6 col-md-12 col-sm-12">
 		<h3 class="text-center">Add a comment</h3>
 		<form action="" method="POST">
 			{% csrf_token %}
@@ -95,7 +103,7 @@
 				<input type="submit" class="btn btn-primary btn-lg my-2 col-12" value="Add Comment">
 			</span>
 		</form>
-	</div>
+	</div> -->
 
 	<div class="col-lg-12 my-2 d-lg-none d-md-block d-sm-block">
 		{% include "blog/partials/sidebar.html" %}

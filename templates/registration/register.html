@@ -8,11 +8,11 @@
 		<div class="row">
 			<div class="col-md-6 offset-md-3">
 				<div class="border bg-white p-3">
-					<h3>Registeration Page</h3>
+					<h3 class="text-center">Registeration Page</h3>
 					<hr>
 					<form method="POST">
 						{% csrf_token %}
-						{{form|crispy}}
+						{{user_form|crispy}}
 						<input type="submit" value="Register" class="btn btn-success col-6 my-4">
 						<a class="mx-4 btn" href="{% url 'login' %}">Have an account? Login</a>
 					</form>

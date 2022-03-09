@@ -28,11 +28,11 @@
 				<li class="nav-item dropdown me-auto">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
 						data-bs-toggle="dropdown" aria-expanded="false">
-						{{request.user.username|title}}
+						{{request.user.username|upper}}
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<li><a class="dropdown-item" href="{% url 'blog:user_blogs' %}">My Blogs</a></li>
-						<li><a class="dropdown-item" href="{% url 'blog:new_blog' %}">Write Blog</a></li>
+						<li><a class="dropdown-item" href="{% url 'blog:new_blog' %}">Create New Blog</a></li>
 						<li>
 							<hr class="dropdown-divider">
 						</li>
@@ -69,6 +69,7 @@
 </nav>
 
 {% else %}
+{% include "../partials/messages.html" %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow">
 	<div class="container">
 		<a class="navbar-brand" href="{% url 'blog:post_list' %}">
