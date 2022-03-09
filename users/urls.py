@@ -7,6 +7,10 @@ urlpatterns = [
     path('profile/', profile, name="profile"),
     path('profile/update/', profile_update, name="profile_update"),
 
+    path('profile/all/', all_users, name="all_users"),
+    path('profile/update/<str:pk>/', all_users_update, name="all_users_update"),
+    
+
     # Login and logout view
     path('login/', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),

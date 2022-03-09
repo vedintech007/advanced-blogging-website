@@ -3,6 +3,7 @@ from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.conf import settings
+from .models import CustomUser
 
 User = settings.AUTH_USER_MODEL
 
@@ -65,3 +66,36 @@ def profile_update(request):
     }
 
     return render(request, 'registration/profile_update.html', context)
+
+@login_required
+def all_users(request):
+    users = CustomUser.objects.all()
+
+    context = {
+        'users': users,
+    }
+    
+    return render(request, 'registration/all_users.html', context)
+
+@login_required
+def all_users_update(request, pk):
+    user = CustomUser.objects.get(id=pk)
+
+    if request.method == "POST":
+        user_form = AdminProfileUpdateForm(
+            request.POST, request.FILES, instance=user)
+
+        if user_form.is_valid():
+            user_form.save()
+            messages.success(request, "Profile updated successfully")
+            return redirect('all_users')
+        else:
+            messages.error(request, "Error updating your profile")
+    else:
+        user_form = AdminProfileUpdateForm(instance=user)
+
+    context = {
+        'user_form': user_form,
+    }
+    
+    return render(request, 'registration/all_users_update.html', context)

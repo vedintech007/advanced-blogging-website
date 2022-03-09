@@ -1,0 +1,34 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Profile Page{% endblock title %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+	<div class="row my-4">
+		<div class="col-md-8 offset-md-2">
+			<div class="card">
+				<div class="card-header bg-info text-white text-center h2">
+					Profile Update Page
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-12">
+							<span class="h4"> Profile Information Update</span>
+							<hr>
+							<form action="" method="POST" enctype="multipart/form-data">
+								{% csrf_token %}
+								{{ user_form|crispy }}
+								<input class="btn btn-success col-6 my-4" type="submit" value="Update Info">
+									<a class="mx-auto btn btn-outline-danger col-lg-5" href="{% url 'blog:post_list' %}">Cancel Update</a>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+{% endblock content %}

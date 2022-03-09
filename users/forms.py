@@ -27,3 +27,19 @@ class ProfileUpdateForm(UserChangeForm):
     class Meta(UserChangeForm):
         model = CustomUser
         fields = ('image', 'username', 'first_name', 'last_name', 'email', 'telephone', 'address')
+
+
+class AdminProfileUpdateForm(UserChangeForm):
+    
+
+    password = forms.CharField(
+        help_text="",
+        required=False,
+        widget=forms.HiddenInput(
+
+        )
+    )
+
+    class Meta(UserChangeForm):
+        model = CustomUser
+        fields = ('image', 'username', 'first_name', 'last_name', 'email', 'telephone', 'address','is_active', 'is_staff')

@@ -38,6 +38,7 @@
 							<hr class="dropdown-divider">
 						</li>
 						{% if request.user.is_staff %}
+						<li><a class="dropdown-item" href="{% url 'all_users' %}">All Users</a></li>
 						<li><a class="dropdown-item" href="{% url 'blog:pending_blogs' %}">Pending Blogs</a></li>
 						<li><a class="dropdown-item" href="{% url 'blog:rejected_blogs' %}">Rejected Blogs</a></li>
 						<li>
@@ -47,6 +48,9 @@
 						<li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
 						<li><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
 						<li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
 					</ul>
 				</li>
 
@@ -57,10 +61,11 @@
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<li><a class="dropdown-item" href="#">How to write a post</a></li>
+						<li><a class="dropdown-item" href="#">The Rich Text Editor</a></li>
 						<li>
 							<hr class="dropdown-divider">
 						</li>
-						<li><a class="dropdown-item" href="#">The Rich Text Editor</a></li>
+						<li><a class="dropdown-item" href="#" target="_blank">Source Code</a></li>
 
 					</ul>
 				</li>
@@ -105,7 +110,7 @@
 						<li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
 						<li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
 						<li><a class="dropdown-item" href="{% url 'password_reset' %}">Reset Password</a></li>
-						
+						<li><a class="dropdown-item" href="#" target="_blank">Source Code</a></li>
 					</ul>
 				</li>
 			</ul>

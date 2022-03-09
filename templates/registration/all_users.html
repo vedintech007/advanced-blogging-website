@@ -1,0 +1,30 @@
+{% extends "blog/base.html" %}
+
+{% block title %}All users Page{% endblock title %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+	<div class="row mt-5">
+		<div class="col-md-6 offset-md-3">
+			<div class="border p-3 bg-white">
+				<h3>All Users</h3>
+				<hr>
+				{% for user in users %}
+				<div>
+					<a href="{% url 'all_users_update' user.id %}">
+						{{user.username}}
+					</a>
+				</div>
+				<div>{{user.first_name}}</div>
+				<div>{{user.last_name}}</div>
+				<div>{{user.email}}</div>
+				<div>{{user.telephone}}</div>
+				<div>{{user.address}}</div>
+				<br><br>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
