@@ -1,5 +1,16 @@
 from django import forms
-from .models import Comment
+from .models import Comment, Post
+
+
+class BlogPostForm(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super(BlogPostForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+    class Meta:
+        model = Post
+        fields = ('cover_image', 'title', 'body', 'tags')
 
 
 class EmailPostForm(forms.Form):

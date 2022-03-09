@@ -28,11 +28,11 @@
 				<li class="nav-item dropdown me-auto">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
 						data-bs-toggle="dropdown" aria-expanded="false">
-						Admin Links
+						{{request.user.username|title}}
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item" href="#">My Blogs</a></li>
-						<li><a class="dropdown-item" href="#">Write Blog</a></li>
+						<li><a class="dropdown-item" href="{% url 'blog:user_blogs' %}">My Blogs</a></li>
+						<li><a class="dropdown-item" href="{% url 'blog:new_blog' %}">Write Blog</a></li>
 						<li>
 							<hr class="dropdown-divider">
 						</li>

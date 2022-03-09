@@ -1,14 +1,33 @@
-from unittest import result
-
-from django.contrib.postgres.search import TrigramSimilarity
+from django.contrib.postgres.search import SearchVector
 from django.core.mail import send_mail
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from taggit.models import Tag
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from .forms import *
 from .models import *
+
+@login_required
+def new_blog_post(request):
+    form = BlogPostForm()
+    if request.method == "POST":
+        form = BlogPostForm(request.POST, request.FILES,)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.author = request.user
+            title = obj.title
+            obj.save()
+            messages.success(request, f'Blog <b>"{title}"</b> Created successfully!')
+            return redirect('blog:user_blogs')
+    
+    context = {
+        'form': form,
+    }
+    
+    return render(request, 'blog/post/new_blog.html', context)
 
 
 def post_list(request, tag_slug=None):
@@ -27,14 +46,9 @@ def post_list(request, tag_slug=None):
             if query == '' or query == None:
                 return redirect('blog:post_list')
             else:
-                # search_vector = SearchVector(
-                #     'title', weight='A') + SearchVector('body', weight='B')
-
-                # search_query = SearchQuery(query)
-
                 object_list = Post.published.annotate(
-                    similarity=TrigramSimilarity('title', query),
-                ).filter(similarity__gte=0.1).order_by('-similarity')
+                    search=SearchVector('title', 'body'),
+                    ).filter(search=query)
                 blog_filtered = True
 
     # Tag Filter logic
@@ -62,11 +76,56 @@ def post_list(request, tag_slug=None):
         'tag': tag,
         'form': form,
         'query': query,
-        'blog_filtered': blog_filtered
+        'blog_filtered': blog_filtered,
     }
 
     return render(request, 'blog/post/index.html', context)
 
+
+@login_required
+def user_blogs(request):
+    object_list = Post.objects.filter(author=request.user).order_by('-created')
+    form = SearchForm()
+    query = None
+    blog_filtered = False
+
+    # Blog Search Filter logic
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+
+            if query == '' or query == None:
+                return redirect('blog:user_blogs')
+            else:
+                object_list = Post.objects.annotate(
+                    search=SearchVector('title', 'body', 'status'),
+                    ).filter(search=query,author=request.user)
+                blog_filtered = True
+
+    # Pagination logic
+    paginator = Paginator(object_list, 12)  # number of posts to show per page
+    page = request.GET.get('page')
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # if page is not an integer deliver the first page
+        posts = paginator.page(1)
+    except EmptyPage:
+        # if page is out of range deliver the last page of the results
+        posts = paginator.page(paginator.num_pages)
+
+    context = {
+        'page': page,
+        'posts': posts,
+        'object_list': object_list.count(),
+        'form': form,
+        'query': query,
+        'blog_filtered': blog_filtered,
+    }
+    
+    return render(request, 'blog/post/user_blogs.html', context)
 
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post, status='published',

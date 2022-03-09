@@ -6,6 +6,9 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from taggit.managers import TaggableManager
+from django.utils.text import slugify
+from django.dispatch import receiver
+from django.db.models.signals import post_save, pre_save
 
 from django.conf import settings
 
@@ -19,14 +22,13 @@ class Post(models.Model):
     STATUS_CHOICES = (
         ('draft', 'Draft'),
         ('published', 'Published'),
+        ('rejected', 'Rejected'),
     )
 
     title = models.CharField(max_length=250)
-    cover_image = models.ImageField(
-        upload_to="static/img/post_cover_images", null=True)
-    slug = models.SlugField(max_length=250, unique_for_date='publish')
-    author = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blog_posts')
+    cover_image = models.ImageField(upload_to="static/img/post_cover_images", null=True)
+    slug = models.SlugField(max_length=250, unique_for_date='publish', blank=True, null=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blog_posts')
     body = RichTextField()
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
@@ -53,6 +55,10 @@ class Post(models.Model):
             self.slug
         ])
 
+
+@receiver(pre_save, sender=Post)
+def blog_post_pre_save(sender, instance, *args, **kwargs):
+    instance.slug = slugify(instance.title)
 
 class Comment(models.Model):
 
