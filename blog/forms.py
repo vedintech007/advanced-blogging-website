@@ -1,13 +1,27 @@
 from django import forms
+
 from .models import Comment, Post
 
 
 class BlogPostForm(forms.ModelForm):
-    
+
     def __init__(self, *args, **kwargs):
         super(BlogPostForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+
+    class Meta:
+        model = Post
+        fields = ('cover_image', 'title', 'body', 'tags')
+
+
+class BlogPostUpdateForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(BlogPostUpdateForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
     class Meta:
         model = Post
         fields = ('cover_image', 'title', 'body', 'tags')
@@ -15,10 +29,10 @@ class BlogPostForm(forms.ModelForm):
 
 class EmailPostForm(forms.Form):
     name = forms.CharField(
-        max_length=25, 
+        max_length=25,
         label="Your Full Name",
         widget=forms.TextInput()
-        )
+    )
     email = forms.EmailField(label="Your Email")
     to = forms.EmailField(label="Reciever Email")
     comments = forms.CharField(
@@ -34,7 +48,7 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('name', 'email', 'body')
-        
+
 
 class SearchForm(forms.Form):
     query = forms.CharField(

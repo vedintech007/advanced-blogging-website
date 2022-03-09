@@ -1,11 +1,11 @@
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchVector
 from django.core.mail import send_mail
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from taggit.models import Tag
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 
 from .forms import *
 from .models import *
@@ -86,7 +86,7 @@ def post_list(request, tag_slug=None):
 
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post, status='published',
-                             publish__year=year, publish__month=month, publish__day=day)
+                            publish__year=year, publish__month=month, publish__day=day)
 
     # List Similar posts
     post_tag_ids = post.tags.values_list('id', flat=True)
@@ -165,6 +165,35 @@ def post_share(request, post_id):
 
     return render(request, 'blog/post/share.html', context)
 
+
+def update_post(request, pk):
+    post = Post.objects.get(id=pk)
+    post_form = BlogPostUpdateForm(instance=post)
+    
+    if request.method == "POST":
+        post_form = BlogPostUpdateForm(
+            request.POST, request.FILES, instance=post)
+
+        if post_form.is_valid():
+            post_form.save()
+            messages.success(request, "Blog post updated successfully")
+            return redirect('blog:post_list')
+        else:
+            messages.error(request, "Error updating your profile")
+    # else:
+    #     post_form = BlogPostUpdateForm(instance=post)
+
+    context = {
+        'post_form': post_form
+    }
+    
+    return render(request, 'blog/post/blog_update.html', context)
+
+
+def delete_post(request, pk):
+    post = Post.objects.get(id=pk)
+    
+    return render(request)
 
 @login_required
 def user_blogs(request):

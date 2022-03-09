@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
-from .forms import *
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+
+from .forms import *
 from .models import CustomUser
 
 User = settings.AUTH_USER_MODEL
@@ -67,6 +68,7 @@ def profile_update(request):
 
     return render(request, 'registration/profile_update.html', context)
 
+
 @login_required
 def all_users(request):
     users = CustomUser.objects.all()
@@ -74,8 +76,9 @@ def all_users(request):
     context = {
         'users': users,
     }
-    
+
     return render(request, 'registration/all_users.html', context)
+
 
 @login_required
 def all_users_update(request, pk):
@@ -97,5 +100,5 @@ def all_users_update(request, pk):
     context = {
         'user_form': user_form,
     }
-    
+
     return render(request, 'registration/all_users_update.html', context)

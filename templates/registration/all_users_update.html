@@ -4,6 +4,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+{% if request.user.is_authenticated %}
+{% if request.user.is_staff %}
 <div class="container">
 	<div class="row my-4">
 		<div class="col-md-8 offset-md-2">
@@ -31,4 +33,11 @@
 	</div>
 
 </div>
+{% else %}
+<div class="text-center">
+	<h3 class="my-5">You are not allowed to access this page and you know that right</h3>
+	<a class="btn btn-success btn-lg" href="{% url 'blog:post_list' %}">Return To Blogs</a>
+</div>
+{% endif %}
+{% endif %}
 {% endblock content %}

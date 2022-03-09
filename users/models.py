@@ -1,9 +1,6 @@
 # from django.contrib.auth import get_user_model as user_model
-from distutils.command.upload import upload
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
-# User = user_model()
 
 
 class CustomUser(AbstractUser):

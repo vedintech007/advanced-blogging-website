@@ -37,7 +37,7 @@
 					</a>
 					{% if request.user.is_authenticated %}
 						{% if request.user.id == post.author.id or request.user.is_staff%}
-							<a class="btn btn-info btn-lg col-md-3 m-2" href="#">
+							<a class="btn btn-info btn-lg col-md-3 m-2" href="{% url 'blog:post_update' post.id %}">
 								Edit Post
 								<span class="text-dark">
 									<i class="bi bi-setting"></i>

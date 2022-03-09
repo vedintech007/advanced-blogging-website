@@ -2,8 +2,10 @@
 # inclusion_tag: Processes the data and returns a rendered template
 
 from django import template
-from ..models import Post
 from django.db.models import Count
+
+from ..models import Post
+
 # from django.utils.safestring import mark_safe
 # import markdown
 
