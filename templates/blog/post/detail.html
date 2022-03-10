@@ -36,21 +36,49 @@
 						</span>
 					</a>
 					{% if request.user.is_authenticated %}
-						{% if request.user.id == post.author.id or request.user.is_staff%}
-							<a class="btn btn-info btn-lg col-md-3 m-2" href="{% url 'blog:post_update' post.id %}">
-								Edit Post
-								<span class="text-dark">
-									<i class="bi bi-setting"></i>
-								</span>
-							</a>
+					{% if request.user.id == post.author.id or request.user.is_staff%}
+					<a class="btn btn-info btn-lg col-md-3 m-2" href="{% url 'blog:post_update' post.id %}">
+						Edit Post
+						<span class="text-dark">
+							<i class="bi bi-setting"></i>
+						</span>
+					</a>
 
-							<a class="btn btn-danger btn-lg col-md-3 m-2" href="#">
-								Delete Post
-								<span class="text-dark">
-									<i class="bi bi-delete"></i>
-								</span>
-							</a>
-						{% endif %}
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-danger btn-lg col-md-3 m-2" data-bs-toggle="modal"
+						data-bs-target="#exampleModal">
+						<span class="text-dark">
+							<i class="bi bi-delete"></i>
+						</span>
+						Delete Post
+					</button>
+
+					<!-- Modal -->
+					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Delete Blog "{{post.title}}"</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<form action="{% url 'blog:post_delete' post.pk %}" method="post">
+										{% csrf_token %}
+										<input class="btn btn-danger btn-lg col-md-5 m-2" type="submit" value="Yes!">
+
+										<a class="btn btn-info btn-lg col-md-5 m-2"
+											href="{% url 'blog:post_list' %}">
+											No, Cancel!
+										</a>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					{% endif %}
 					{% endif %}
 				</div>
 			</p>

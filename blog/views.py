@@ -86,7 +86,7 @@ def post_list(request, tag_slug=None):
 
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post, status='published',
-                            publish__year=year, publish__month=month, publish__day=day)
+                             publish__year=year, publish__month=month, publish__day=day)
 
     # List Similar posts
     post_tag_ids = post.tags.values_list('id', flat=True)
@@ -169,7 +169,7 @@ def post_share(request, post_id):
 def update_post(request, pk):
     post = Post.objects.get(id=pk)
     post_form = BlogPostUpdateForm(instance=post)
-    
+
     if request.method == "POST":
         post_form = BlogPostUpdateForm(
             request.POST, request.FILES, instance=post)
@@ -186,14 +186,28 @@ def update_post(request, pk):
     context = {
         'post_form': post_form
     }
-    
+
     return render(request, 'blog/post/blog_update.html', context)
 
 
 def delete_post(request, pk):
     post = Post.objects.get(id=pk)
-    
-    return render(request)
+    title = post.title
+
+    if request.method == "POST":
+        messages.success(request, f"Blog post '{title}' deleted successfully")
+        post.delete()
+        return redirect('blog:post_list')
+    else:
+        messages.error(request, f"Error deleting blog '{title}'")
+        return redirect('blog:post_list')
+
+    # context = {
+    #     'title': title
+    # }
+
+    # return render(request, 'blog/post/blog_update.html', context)
+
 
 @login_required
 def user_blogs(request):
@@ -309,6 +323,7 @@ def user_pending_blogs(request):
     }
 
     return render(request, 'blog/post/user_pending_blogs.html', context)
+
 
 @login_required
 def user_rejected_blogs(request):
