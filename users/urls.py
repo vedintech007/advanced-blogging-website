@@ -10,6 +10,7 @@ urlpatterns = [
 
     path('profile/all/', all_users, name="all_users"),
     path('profile/update/<str:pk>/', all_users_update, name="all_users_update"),
+    path('<str:pk>/profile/', user_profile, name="user_profile"),
     
 
     # Login and logout view

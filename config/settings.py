@@ -170,9 +170,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
-
-    # For user to be able to login with email as well as default user method
-    'users.authentication.EmailAuthBackend',
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'

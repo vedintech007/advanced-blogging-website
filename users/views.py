@@ -81,6 +81,17 @@ def all_users(request):
 
 
 @login_required
+def user_profile(request, pk):
+    user = CustomUser.objects.get(id=pk)
+
+    context = {
+        'user': user,
+    }
+
+    return render(request, 'registration/user_profile.html', context)
+
+
+@login_required
 def all_users_update(request, pk):
     user = CustomUser.objects.get(id=pk)
 

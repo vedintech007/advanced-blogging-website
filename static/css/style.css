@@ -31,3 +31,13 @@
 .sidebar-link:hover{
 	background-color: #0000003d;
 }
+
+.profile-img{
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: aqua;
+
+	width: 60%;
+	height: auto;
+}

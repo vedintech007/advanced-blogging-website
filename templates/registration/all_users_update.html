@@ -22,7 +22,7 @@
 								{% csrf_token %}
 								{{ user_form|crispy }}
 								<input class="btn btn-success col-6 my-4" type="submit" value="Update Info">
-									<a class="mx-auto btn btn-outline-danger col-lg-5" href="{% url 'blog:post_list' %}">Cancel Update</a>
+									<a class="mx-auto btn btn-outline-danger col-lg-5" href="{% url 'all_users' %}">Cancel Update</a>
 							</form>
 						</div>
 					</div>
