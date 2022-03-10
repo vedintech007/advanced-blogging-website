@@ -7,18 +7,28 @@
 
 {% block content %}
 <div class="form-group">
-<form action="" method="POST" enctype="multipart/form-data">
-	{% csrf_token %}
-	{{post_form.media}}
-	<p>{{post_form.cover_image}}</p>
-	<p>{{post_form.title}}</p>
-	<p>{{post_form.body}}</p>
-	<p>{{post_form.tags}}</p>
-	<p>{% if request.user.is_staff %}</p>
-	<label for="">Select Blog Status</label>
+	<form action="" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<p>{{post_form.media}}</p>
+
+		<label for="">Blog Cover cover_image</label>
+		<p>{{post_form.cover_image}}</p>
+		<br>
+
+		<label for="">{{post_form.title.label}}</label>
+		<p>{{post_form.title}}</p>
+
+		<label for="">{{post_form.body.label}}</label>
+		<p>{{post_form.body}}</p>
+
+		<label for="">{{post_form.tags.label}}</label>
+		<p>{{post_form.tags}}</p>
+
+		{% if request.user.is_staff %}
+		<label for="">{{post_form.status.label}}</label>
 		<p>{{post_form.status}}</p>
-	{% endif %}
-	<input class="btn btn-info" type="submit" value="Update Blog Post">
-</form>
+		{% endif %}
+		<input class="btn btn-info" type="submit" value="Update Blog Post">
+	</form>
 </div>
 {% endblock content %}
