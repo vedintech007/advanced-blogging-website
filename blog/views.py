@@ -189,7 +189,7 @@ def update_post(request, pk):
 
     return render(request, 'blog/post/blog_update.html', context)
 
-
+@login_required
 def delete_post(request, pk):
     post = Post.objects.get(id=pk)
     title = post.title
@@ -201,13 +201,6 @@ def delete_post(request, pk):
     else:
         messages.error(request, f"Error deleting blog '{title}'")
         return redirect('blog:post_list')
-
-    # context = {
-    #     'title': title
-    # }
-
-    # return render(request, 'blog/post/blog_update.html', context)
-
 
 @login_required
 def user_blogs(request):

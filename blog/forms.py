@@ -24,7 +24,7 @@ class BlogPostUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ('cover_image', 'title', 'body', 'tags')
+        fields = ('cover_image', 'title', 'body', 'tags', 'status')
 
 
 class EmailPostForm(forms.Form):

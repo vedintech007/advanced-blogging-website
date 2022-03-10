@@ -9,8 +9,15 @@
 <div class="form-group">
 <form action="" method="POST" enctype="multipart/form-data">
 	{% csrf_token %}
-	{{post_form.as_p}}
 	{{post_form.media}}
+	<p>{{post_form.cover_image}}</p>
+	<p>{{post_form.title}}</p>
+	<p>{{post_form.body}}</p>
+	<p>{{post_form.tags}}</p>
+	<p>{% if request.user.is_staff %}</p>
+	<label for="">Select Blog Status</label>
+		<p>{{post_form.status}}</p>
+	{% endif %}
 	<input class="btn btn-info" type="submit" value="Update Blog Post">
 </form>
 </div>
