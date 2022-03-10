@@ -86,7 +86,7 @@ def post_list(request, tag_slug=None):
 
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post, status='published',
-                             publish__year=year, publish__month=month, publish__day=day)
+                            publish__year=year, publish__month=month, publish__day=day)
 
     # List Similar posts
     post_tag_ids = post.tags.values_list('id', flat=True)
@@ -113,6 +113,7 @@ def post_detail(request, year, month, day, post):
             new_comment.post = post
             # save the comment to the database
             new_comment.save()
+            messages.success(request, "New comment added successfully")
             return redirect(post_url)
     else:
         comment_form = CommentForm()
