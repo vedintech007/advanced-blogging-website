@@ -17,6 +17,8 @@
 						<th scope="col">Name</th>
 						<th scope="col">Email</th>
 						<th scope="col">Phone</th>
+						<th scope="col">Is Active</th>
+						<th scope="col">Is Staff</th>
 						<th scope="col"></th>
 						<th scope="col"></th>
 					</tr>
@@ -28,6 +30,8 @@
 						<td>{{user.username}}</td>
 						<td>{{user.email}}</td>
 						<td>{{user.telephone}}</td>
+						<td>{{user.is_active}}</td>
+						<td>{{user.is_staff}}</td>
 						<th scope="row"><a class="btn btn-info btn-sm"
 								href="{% url 'user_profile' user.id %}">View</a>
 						</th>
