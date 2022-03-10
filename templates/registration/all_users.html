@@ -6,34 +6,50 @@
 {% block content %}
 {% if request.user.is_authenticated %}
 {% if request.user.is_staff %}
+
 <div class="container">
-	<div class="row mt-5">
-		<div class="col-md-6 offset-md-3">
-			<div class="border p-3 bg-white">
-				<h3>All Users</h3>
-				<hr>
-				{% for user in users %}
-				<div>
-					<a href="{% url 'all_users_update' user.id %}">
-						{{user.username}}
-					</a>
-				</div>
-				<div>{{user.first_name}}</div>
-				<div>{{user.last_name}}</div>
-				<div>{{user.email}}</div>
-				<div>{{user.telephone}}</div>
-				<div>{{user.address}}</div>
-				<br><br>
-				{% endfor %}
-			</div>
+	<div class="row my-4">
+		<!-- <div class="col-md-4"></div> -->
+		<div class="col-md-12">
+			<table class="table bg-white">
+				<thead class="bg-info">
+					<tr class="text-white">
+						<th scope="col">Name</th>
+						<th scope="col">Email</th>
+						<th scope="col">Phone</th>
+						<th scope="col"></th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for user in users %}
+
+					<tr>
+						<td>{{user.username}}</td>
+						<td>{{user.email}}</td>
+						<td>{{user.telephone}}</td>
+						<th scope="row"><a class="btn btn-info btn-sm"
+								href="#">View</a>
+						</th>
+
+						<th scope="row"><a class="btn btn-info btn-sm"
+							href="{% url 'all_users_update' user.id %}">Edit</a>
+					</th>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 		</div>
 	</div>
+
 </div>
 {% else %}
 <div class="text-center">
 	<h3 class="my-5">You are not allowed to access this page and you know that right</h3>
 	<a class="btn btn-success btn-lg" href="{% url 'blog:post_list' %}">Return To Blogs</a>
 </div>
+
+
 {% endif %}
 {% endif %}
 {% endblock content %}
