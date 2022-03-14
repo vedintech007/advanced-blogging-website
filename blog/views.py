@@ -88,6 +88,7 @@ def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post, status='published',
                             publish__year=year, publish__month=month, publish__day=day)
     posts = Post.published.all()[:2]
+    form = SearchForm()
 
     # List Similar posts
     post_tag_ids = post.tags.values_list('id', flat=True)
@@ -126,6 +127,7 @@ def post_detail(request, year, month, day, post):
         'new_comment': new_comment,
         'comment_form': comment_form,
         'similar_posts': similar_posts,
+        'form': form
     }
 
     return render(request, 'blog/post/detail.html', context)
