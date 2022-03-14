@@ -55,7 +55,6 @@
 			<div class="col-lg-4 col-sm-6 mb-5 blogs-shadow">
 				<article class="text-center">
 					<img class="img-fluid mb-4 cover-image-blogs" src="{{ post.cover_image.url }}" alt="post-thumb' %}">
-					<p class="text-uppercase mb-2">TRAVEL</p>
 					<h4 class="title-border"><a class="text-dark" href="{{post.get_absolute_url}}">{{ post.title }}</a>
 					</h4>
 					<p>{{post.body|striptags|truncatewords_html:15}}</p>

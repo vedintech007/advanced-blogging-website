@@ -12,7 +12,7 @@
 		<!-- <div class="col-md-4"></div> -->
 		<div class="col-md-12">
 			<table class="table bg-white">
-				<thead class="bg-info">
+				<thead class="bg-success">
 					<tr class="text-white">
 						<th scope="col">Name</th>
 						<th scope="col">Email</th>
@@ -32,11 +32,11 @@
 						<td>{{user.telephone}}</td>
 						<td>{{user.is_active}}</td>
 						<td>{{user.is_staff}}</td>
-						<th scope="row"><a class="btn btn-info btn-sm"
+						<th scope="row"><a class="btn btn-success btn-sm"
 								href="{% url 'user_profile' user.id %}">View</a>
 						</th>
 
-						<th scope="row"><a class="btn btn-info btn-sm"
+						<th scope="row"><a class="btn btn-success btn-sm"
 							href="{% url 'all_users_update' user.id %}">Edit</a>
 					</th>
 					</tr>

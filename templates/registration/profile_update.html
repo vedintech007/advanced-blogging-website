@@ -8,7 +8,7 @@
 	<div class="row my-4">
 		<div class="col-md-8 offset-md-2">
 			<div class="card">
-				<div class="card-header bg-info text-white text-center h2">
+				<div class="card-header bg-success text-white text-center h2">
 					Profile Update Page
 				</div>
 				<div class="card-body">
@@ -21,7 +21,7 @@
 								{% csrf_token %}
 								{{ user_form.as_p }}
 								<input class="btn btn-success col-6 my-4" type="submit" value="Update Info">
-									<a class="mx-auto btn btn-outline-danger col-lg-5" href="{% url 'blog:post_list' %}">Cancel Update</a>
+									<a class="mx-auto btn btn-outline-danger col-lg-5" href="{% url 'profile' %}">Cancel Update</a>
 							</form>
 						</div>
 						</div>

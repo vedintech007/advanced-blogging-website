@@ -11,7 +11,8 @@
 	{% csrf_token %}
 	{{form.as_p}}
 	{{form.media}}
-	<input class="btn btn-info" type="submit" value="Create Blog Post">
+	<input class="btn btn-success col-4" type="submit" value="Create Blog Post">
+	<a class="mx-auto btn btn-outline-danger col-lg-5" href="{% url 'blog:post_list' %}">Cancel</a>
 </form>
 </div>
 {% endblock content %}
