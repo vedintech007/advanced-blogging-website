@@ -1,47 +1,83 @@
 {% load blog_tags %}
-<div class="my-5 text-center">
-	<div class="pt-4">
-		<h2>Similar Blogs</h2>
-		<div class="row">
-			{% for post in similar_posts %}
-			<a class="text-dark fs-6 py-1 sidebar-link" href="{{ post.get_absolute_url }}">
-				{{post.title}}
-			</a>
-			{% empty %}
-			<a class="text-dark fs-6 py-1 nav-link disabled" href="{{ post.get_absolute_url }}">
-				No Similar Posts
-			</a>
-			{% endfor %}
-		</div>
-	</div>
+<div class="col-lg-4">
 
-	<div class="pt-4">
-		<h2>Blog Tags</h2>
-		<div class="row">
+	{% if post.tags %}
+	<div class="widget">
+		<h6 class="mb-4">TAGS</h6>
+		<ul class="list-inline tag-list">
 			{% for tag in post.tags.all %}
-			<a class="text-dark fs-6 py-1 sidebar-link" href="{% url 'blog:post_list_by_tag' tag.slug %}">
-				{{tag.name}}
-			</a>
+			<li class="list-inline-item m-1"><a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{tag.name}}</a></li>
 			{% if not forloop.last %} {% endif %}
 			{% endfor %}
-		</div>
+		</ul>
 	</div>
+	{% endif %}
 
-	<div class="pt-4">
-		<h2>Latest Posts</h2>
-		{% show_latest_posts %}
-	</div>
-
-	<div class="pt-4">
-		<h2>Most Commented</h2>
-		{% get_most_commented_posts as most_commented_posts %}
-		<div class="row">
-			{% for post in most_commented_posts %}
-			<a class="text-dark fs-6 py-1 sidebar-link" href="{{ post.get_absolute_url }}">
-				{{post.title}}
-			</a>
-			{% endfor %}
+	{% if similar_posts %}
+	<div class="widget">
+		<h6 class="mb-4">SIMILAR POSTS</h6>
+		{% for post in similar_posts|slice:":2" %}
+		<div class="media mb-4">
+			<div class="post-thumb-sm mr-3">
+				<img class="img-fluid latest-posts-img" src="{{post.cover_image.url}}" alt="post-thumb">
+			</div>
+			<div class="media-body">
+				<ul class="list-inline d-flex justify-content-between mb-2">
+					<li class="list-inline-item">Post By {{post.author.username}}</li>
+					<li class="list-inline-item">{{post.publish}}</li>
+				</ul>
+				<h6><a class="text-dark"
+						href="{{ post.get_absolute_url }}">{{post.title|striptags|truncatewords_html:5}}</a>
+				</h6>
+			</div>
 		</div>
+		{% endfor %}
 	</div>
+	{% endif %}
+
+	{% if posts %}
+	<div class="widget">
+		<h6 class="mb-4">LATEST POST</h6>
+		{% for post in posts|slice:":2" %}
+		<div class="media mb-4">
+			<div class="post-thumb-sm mr-3">
+				<img class="img-fluid latest-posts-img" src="{{post.cover_image.url}}" alt="post-thumb">
+			</div>
+			<div class="media-body">
+				<ul class="list-inline d-flex justify-content-between mb-2">
+					<li class="list-inline-item">Post By {{post.author.username}}</li>
+					<li class="list-inline-item">{{post.publish}}</li>
+				</ul>
+				<h6><a class="text-dark"
+						href="{{ post.get_absolute_url }}">{{post.title|striptags|truncatewords_html:5}}</a>
+				</h6>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+
+	{% get_most_commented_posts 2  as most_commented_posts%}
+	{% if most_commented_posts %}
+	<div class="widget">
+		<h6 class="mb-4">MOST COMMENTED POST</h6>
+		{% for post in most_commented_posts %}
+		<div class="media mb-4">
+			<div class="post-thumb-sm mr-3">
+				<img class="img-fluid latest-posts-img" src="{{post.cover_image.url}}" alt="post-thumb">
+			</div>
+			<div class="media-body">
+				<ul class="list-inline d-flex justify-content-between mb-2">
+					<li class="list-inline-item">Post By {{post.author.username}}</li>
+					<li class="list-inline-item">{{post.publish}}</li>
+				</ul>
+				<h6><a class="text-dark"
+						href="{{ post.get_absolute_url }}">{{post.title|striptags|truncatewords_html:5}}</a>
+				</h6>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	{% endif %}
 
 </div>

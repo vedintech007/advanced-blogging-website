@@ -2,7 +2,7 @@
 {% for message in messages %}
 
 {% if message.tags == 'success' %}
-<div class="alert alert-success alert-dismissible fade show text-center p-3 h5 fw-300" role="alert">
+<div class="alert alert-success alert-dismissible fade show text-center p-3" style="font-weight: 400; font-size: larger;" role="alert">
 	<i class="bi bi-check-circle"></i>
 	<strong class="text-center">{{message|safe}}</strong>
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -12,7 +12,7 @@
 {% endif %}
 
 {% if message.tags == 'info' %}
-<div class="alert alert-info alert-dismissible fade show text-center p-3 h5" role="alert">
+<div class="alert alert-info alert-dismissible fade show text-center p-3" style="font-weight: 400; font-size: larger;" role="alert">
 	<i class="bi bi-info-circle fs-4"></i>
 	<strong class="text-center">{{message|safe}}</strong>
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -22,7 +22,7 @@
 {% endif %}
 
 {% if message.tags == 'warning' %}
-<div class="alert alert-warning alert-dismissible fade show text-center p-3 h5" role="alert">
+<div class="alert alert-warning alert-dismissible fade show text-center p-3" style="font-weight: 400; font-size: larger;" role="alert">
 	<i class="bi bi-exclamation-circle"></i>
 	<strong class="text-center">{{message|safe}}</strong>
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -32,7 +32,7 @@
 {% endif %}
 
 {% if message.tags == 'error' %}
-<div class="alert alert-danger alert-dismissible fade show text-center p-3 h5" role="alert">
+<div class="alert alert-danger alert-dismissible fade show text-center p-3" style="font-weight: 400; font-size: larger;" role="alert">
 	<i class="bi bi-exclamation-triangle"></i>
 	<strong class="text-center">{{message|safe}}</strong>
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -42,7 +42,7 @@
 {% endif %}
 
 {% if message.tags == 'debug' %}
-<div class="alert alert-dark alert-dismissible fade show text-center p-3 h5" role="alert">
+<div class="alert alert-dark alert-dismissible fade show text-center p-3" style="font-weight: 400; font-size: larger;" role="alert">
 	<i class="bi bi-exclamation-octagon-fill"></i>
 	<strong class="text-center">{{message|safe}}</strong>
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">

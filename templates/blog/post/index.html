@@ -5,12 +5,16 @@
 
 {% block content %}
 <!-- featured post -->
+
+
+{% if tag or blog_filtered %}
+{% include "blog/post/search.html" %}
+{% else %}
+
+<!-- featured post -->
+{% if object_list > 3 %}
 <section class="">
 	<div class="container-fluid p-sm-0">
-
-		{% if tag or blog_filtered %}
-		{% include "blog/post/search.html" %}
-		{% else %}
 
 		<div class="row featured-post-slider">
 			<!-- for loop 4 top or featured posts -->
@@ -29,21 +33,13 @@
 					</div>
 				</article>
 			</div>
-			{% empty %}
-			<div class="text-center">
-				{% if blog_filtered %}
-				<h3 class="py-5">Oops, No Blogs found...</h3>
-				<a class="btn btn-success btn-lg" href="{% url 'blog:post_list' %}">Back To Blogs</a>
-				{% else %}
-				<h3 class="my-5">There are no blogs yet...</h3>
-				{% endif %}
-			</div>
 			{% endfor %}
 
 		</div>
 
 	</div>
 </section>
+{% endif %}
 <!-- /featured post -->
 
 <!-- blog post -->
@@ -54,7 +50,7 @@
 			{% for post in posts %}
 			<div class="col-lg-4 col-sm-6 mb-5 blogs-shadow">
 				<article class="text-center">
-					<img class="img-fluid mb-4 cover-image-blogs" src="{{ post.cover_image.url }}" alt="post-thumb' %}">
+					<img class="img-fluid mb-4 cover-image-blogs" src="{{ post.cover_image.url }}" alt="post-thumb' %}" draggable="false">
 					<h4 class="title-border"><a class="text-dark" href="{{post.get_absolute_url}}">{{ post.title }}</a>
 					</h4>
 					<p>{{post.body|striptags|truncatewords_html:15}}</p>
@@ -62,7 +58,7 @@
 				</article>
 			</div>
 			{% empty %}
-			<div class="text-center">
+			<div class="text-center offset-md-3">
 				{% if blog_filtered %}
 				<h3 class="py-5">Oops, No Blogs found...</h3>
 				<a class="btn btn-success btn-lg" href="{% url 'blog:post_list' %}">Back To Blogs</a>
@@ -73,14 +69,13 @@
 			{% endfor %}
 
 		</div>
-		{% endif %}
-		<!-- pagination -->
-		{% if object_list > 9 %}
-		{% include "blog/partials/pagination.html" %}
-		{% endif %}
 
 	</div>
 </section>
+{% endif %}
+
+<!-- pagination -->
+{% include "blog/partials/pagination.html" %}
 <!-- /blog post -->
 
 {% endblock content %}

@@ -11,9 +11,9 @@ User = settings.AUTH_USER_MODEL
 @receiver(user_logged_out)
 def on_user_logged_out(sender, request, user, **kwargs):
     if user:
-        msg = f'You have been signed out {request.user.username}!.'
+        msg = f'You signed out {request.user.username}!'
     else:
-        msg = 'You have been logged out!'
+        msg = 'You signed out!'
 
     messages.add_message(request, messages.SUCCESS, msg)
 
@@ -21,9 +21,9 @@ def on_user_logged_out(sender, request, user, **kwargs):
 @receiver(user_logged_in)
 def on_user_logged_in(sender, request, user, **kwargs):
     if user:
-        msg = f'Successfully signed in as {request.user.username}'
+        msg = f'Signed in as {request.user.username}!'
     else:
-        msg = f'Successfully signed in'
+        msg = f'Signed in!'
 
     messages.add_message(request, messages.SUCCESS, msg)
 
@@ -31,8 +31,8 @@ def on_user_logged_in(sender, request, user, **kwargs):
 @receiver(user_login_failed)
 def on_user_logged_in_failed(sender, request, user, **kwargs):
     if user:
-        msg = 'Sign in attempt failed'
+        msg = 'Sign in failed!'
     else:
-        msg = 'Sign in attempt failed'
+        msg = 'Sign in failed!'
 
     messages.add_message(request, messages.ERROR, msg)

@@ -1,5 +1,5 @@
 {% extends "blog/partials/main_base.html" %}
-{% block title %}Blog Details Page{% endblock title %}
+{% block title %}{{post.title}} - Blog{% endblock title %}
 {% load blog_tags %}
 {% load static %}
 {% load crispy_forms_tags %}
@@ -7,8 +7,8 @@
 
 {% block content %}
 {% if tag or blog_filtered %}
-		{% include "blog/post/search.html" %}
-		{% else %}
+{% include "blog/post/search.html" %}
+{% else %}
 
 <!-- page-title -->
 <section class="section">
@@ -44,7 +44,7 @@
 					<div class="row">
 						<a class="btn btn-primary btn-lg col-md-3 m-2" role="button"
 							href="{% url 'blog:post_share' post.id %}">
-							Share post
+							Share Via Mail
 							<i class="text-danger bi bi-google"></i>
 						</a>
 						{% if request.user.is_authenticated %}
@@ -71,7 +71,8 @@
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete blog "{{post.title}}</h5>
+										<h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete
+											blog "{{post.title}}</h5>
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
@@ -91,115 +92,49 @@
 								</div>
 							</div>
 						</div>
+						{% endif %}
+						{% endif %}
 
-						{% endif %}
-						{% endif %}
 					</div>
 				</p>
-			</div>
 
 
+				<div class="col-12 comment-container">
+					{% with comments.count as total_comments %}
+					<h3 class="text-center">
+						{{ total_comments }} comment{{ total_comments|pluralize }}
+					</h3>
+					{% endwith %}
+					<hr>
 
-			<div class="col-lg-4">
-				<div class="widget">
-					<h6 class="mb-4">TAGS</h6>
-					<ul class="list-inline tag-list">
-						{% for tag in post.tags.all %}
-						<li class="list-inline-item m-1"><a
-								href="{% url 'blog:post_list_by_tag' tag.slug %}">{{tag.name}}</a></li>
-						{% if not forloop.last %} {% endif %}
-						{% endfor %}
-					</ul>
-				</div>
-
-				<div class="widget">
-					<h6 class="mb-4">SIMILAR POSTS</h6>
-					{% for post in similar_posts|slice:":2" %}
-					<div class="media mb-4">
-						<div class="post-thumb-sm mr-3">
-							<img class="img-fluid latest-posts-img" src="{{post.cover_image.url}}" alt="post-thumb">
-						</div>
-						<div class="media-body">
-							<ul class="list-inline d-flex justify-content-between mb-2">
-								<li class="list-inline-item">Post By {{post.author.username}}</li>
-								<li class="list-inline-item">{{post.publish}}</li>
-							</ul>
-							<h6><a class="text-dark"
-									href="{{ post.get_absolute_url }}">{{post.title|striptags|truncatewords_html:5}}</a>
-							</h6>
+					{% for comment in comments %}
+					<div class="border-left border-5 border-dark border-5 px-2 mb-5">
+						<h5 class="fw-bolder">
+							<span class="bg-primary rounded p-2 text-white">{{comment.name|upper|slice:"1"}}</span>
+							{{comment.name}}
+						</h5>
+						<div>
+							{{ comment.body|linebreaks }}
 						</div>
 					</div>
-					{% endfor %}
-				</div>
-
-				<div class="widget">
-					<h6 class="mb-4">LATEST POST</h6>
-					{% for post in posts|slice:":2" %}
-					<div class="media mb-4">
-						<div class="post-thumb-sm mr-3">
-							<img class="img-fluid latest-posts-img" src="{{post.cover_image.url}}" alt="post-thumb">
-						</div>
-						<div class="media-body">
-							<ul class="list-inline d-flex justify-content-between mb-2">
-								<li class="list-inline-item">Post By {{post.author.username}}</li>
-								<li class="list-inline-item">{{post.publish}}</li>
-							</ul>
-							<h6><a class="text-dark"
-									href="{{ post.get_absolute_url }}">{{post.title|striptags|truncatewords_html:5}}</a>
-							</h6>
-						</div>
-					</div>
-					{% endfor %}
-				</div>
-
-				<div class="widget">
-					<h6 class="mb-4">MOST COMMENTED POST</h6>
-					{% get_most_commented_posts 2  as most_commented_posts%}
-					{% for post in most_commented_posts %}
-					<div class="media mb-4">
-						<div class="post-thumb-sm mr-3">
-							<img class="img-fluid latest-posts-img" src="{{post.cover_image.url}}" alt="post-thumb">
-						</div>
-						<div class="media-body">
-							<ul class="list-inline d-flex justify-content-between mb-2">
-								<li class="list-inline-item">Post By {{post.author.username}}</li>
-								<li class="list-inline-item">{{post.publish}}</li>
-							</ul>
-							<h6><a class="text-dark"
-									href="{{ post.get_absolute_url }}">{{post.title|striptags|truncatewords_html:5}}</a>
-							</h6>
-						</div>
-					</div>
+					{% empty %}
+					<h4 class="text-center pb-4">There are no comments!</h4>
 					{% endfor %}
 				</div>
 
 			</div>
+
+
+			<!-- side bar -->
+			{% include "blog/partials/sidebar.html" %}
+
 		</div>
 	</div>
 </section>
 <!-- /blog single -->
 
-<div class="row py-2">
-	<div class="col-lg-5 col-md-8 col-sm-8 mx-4">
-		{% with comments.count as total_comments %}
-		<h3 class="text-center">
-			{{ total_comments }} comment{{ total_comments|pluralize }}
-		</h3>
-		{% endwith %}
-
-		{% for comment in comments %}
-		<div class="border-start border-dark border-5 px-4 mb-5">
-			<h5 class="fw-bolder">Comment {{forloop.revcounter }} by {{comment.name}}</h5>
-			<div>
-				{{ comment.body|linebreaks }}
-			</div>
-		</div>
-		{% empty %}
-		<h4 class="text-center pb-4">There are no comments!</h4>
-		{% endfor %}
-	</div>
-
-	<div class="col-lg-5 col-md-8 col-sm-8 mx-2">
+<!-- <div class="row py-2 mt-5">
+<div class="col-lg-5 col-md-8 col-sm-8 mx-2">
 		<h3 class="text-center">Add a comment</h3>
 		<form action="" method="POST">
 			{% csrf_token %}
@@ -209,7 +144,8 @@
 			</span>
 		</form>
 	</div>
-</div>
+</div> -->
 {% endif %}
+
 
 {% endblock content %}
