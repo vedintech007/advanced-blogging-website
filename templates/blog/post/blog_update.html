@@ -27,6 +27,9 @@
 		{% if request.user.is_staff %}
 		<label for="">{{post_form.status.label}}</label>
 		<p>{{post_form.status}}</p>
+
+		<label for="">{{post_form.featured.label}}</label>
+		<p>{{post_form.featured}}</p>
 		{% endif %}
 		<input class="btn btn-info" type="submit" value="Update Blog Post">
 	</form>

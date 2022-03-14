@@ -6,12 +6,16 @@
 
 
 {% block content %}
+{% if tag or blog_filtered %}
+		{% include "blog/post/search.html" %}
+		{% else %}
+
 <!-- page-title -->
 <section class="section">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-lg-12">
-				<div class="blog-detail-cover-image pt-3">
+				<div class="blog-detail-cover-image pt-4">
 					<span class="d-flex justify-content-center p-5">
 						<h4 class=" text-white">{{post.title}}</h4>
 					</span>
@@ -110,7 +114,7 @@
 
 				<div class="widget">
 					<h6 class="mb-4">SIMILAR POSTS</h6>
-					{% for post in similar_posts %}
+					{% for post in similar_posts|slice:":2" %}
 					<div class="media mb-4">
 						<div class="post-thumb-sm mr-3">
 							<img class="img-fluid latest-posts-img" src="{{post.cover_image.url}}" alt="post-thumb">
@@ -130,7 +134,7 @@
 
 				<div class="widget">
 					<h6 class="mb-4">LATEST POST</h6>
-					{% for post in posts %}
+					{% for post in posts|slice:":2" %}
 					<div class="media mb-4">
 						<div class="post-thumb-sm mr-3">
 							<img class="img-fluid latest-posts-img" src="{{post.cover_image.url}}" alt="post-thumb">
@@ -175,5 +179,37 @@
 </section>
 <!-- /blog single -->
 
+<div class="row py-2">
+	<div class="col-lg-5 col-md-8 col-sm-8 mx-4">
+		{% with comments.count as total_comments %}
+		<h3 class="text-center">
+			{{ total_comments }} comment{{ total_comments|pluralize }}
+		</h3>
+		{% endwith %}
+
+		{% for comment in comments %}
+		<div class="border-start border-dark border-5 px-4 mb-5">
+			<h5 class="fw-bolder">Comment {{forloop.revcounter }} by {{comment.name}}</h5>
+			<div>
+				{{ comment.body|linebreaks }}
+			</div>
+		</div>
+		{% empty %}
+		<h4 class="text-center pb-4">There are no comments!</h4>
+		{% endfor %}
+	</div>
+
+	<div class="col-lg-5 col-md-8 col-sm-8 mx-2">
+		<h3 class="text-center">Add a comment</h3>
+		<form action="" method="POST">
+			{% csrf_token %}
+			{{comment_form|crispy}}
+			<span class=" d-flex justify-content-center">
+				<input type="submit" class="btn btn-primary btn-lg my-2 col-12" value="Add Comment">
+			</span>
+		</form>
+	</div>
+</div>
+{% endif %}
 
 {% endblock content %}

@@ -1,4 +1,4 @@
-{% extends "blog/base.html" %}
+{% extends "blog/partials/main_base.html" %}
 {% block title %}User Blog Details Page{% endblock title %}
 {% load blog_tags %}
 {% load static %}
@@ -6,119 +6,209 @@
 
 
 {% block content %}
-<div class="container">
-	<div class="row">
-
-		<div>
-			<div class="blog-detail-cover-image pt-3">
-				<span class="d-flex justify-content-center p-5 text-white">
-					<h1>{{post.title}} -
-						{% if post.status == "draft" %}
-						<span class="text-info">Status: Pending</span>
-						{% endif %}
-
-						{% if post.status == "published" %}
-						<span class="text-info">Status: Published</span>
-						{% endif %}
-
-						{% if post.status == "rejected" %}
-						<span class="text-info">Status: Rejected</span>
-						{% endif %}
-					</h1>
-				</span>
+{% if tag or blog_filtered %}
+	{% include "blog/post/search.html" %}
+	{% else %}
+<!-- page-title -->
+<section class="section">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="blog-detail-cover-image pt-4">
+					<span class="d-flex justify-content-center p-5">
+						<h4 class="text-white">{{post.title}} -
+							{% if post.status == "draft" %}
+							<span class="text-info">Status: Pending</span>
+							{% endif %}
+	
+							{% if post.status == "published" %}
+							<span class="text-info">Status: Published</span>
+							{% endif %}
+	
+							{% if post.status == "rejected" %}
+							<span class="text-info">Status: Rejected</span>
+							{% endif %}
+						</h4>
+					</span>
+				</div>
 			</div>
 		</div>
+	</div>
+</section>
+<!-- /page-title -->
 
-		<div class="col-lg-8 col-md-12 my-1">
-			<p class="my-2 fw-bold"><span>Tags: {{ post.tags.all|join:', '}}</span></p>
-			<p class="my-3 fw-bold opacity-75">Publishd {{post.publish}} <span class="mx-2">By
-					{{post.author.username}}</span>
-			</p>
-			<div class="text-justify">
-				{{post.body|safe|linebreaks}}
-			</div>
+<!-- blog single -->
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8">
+				<ul class="list-inline d-flex justify-content-between py-3">
+					<li class="list-inline-item"><i class="ti-user mr-2"></i>Post by {{post.author.username}}</li>
+					<li class="list-inline-item"><i class="ti-calendar mr-2"></i>{{post.publish}}</li>
+				</ul>
+				<div class="content">
+					<p>{{post.body|safe|linebreaks}}</p>
+				</div>
 
-			<!-- Share Post Through Google -->
-			<p class="py-3">
-				<div class="row">
-					{% if post.status == "published" %}
-					<a class="btn btn-primary btn-lg col-md-3 m-2" href="{% url 'blog:post_share' post.id %}">
-						Share post
-						<span class="text-danger">
-							<i class="bi bi-google"></i>
-						</span>
-					</a>
-					{% endif %}
+				<!-- Share Post Through Google -->
+				<p class="py-2">
+					<div class="row">
+						{% if post.status == "published" %}
+						<a class="btn btn-primary btn-lg col-md-3 m-2" role="button"
+							href="{% url 'blog:post_share' post.id %}">
+							Share post
+							<i class="text-danger bi bi-google"></i>
+						</a>
+						{% endif %}
+						{% if request.user.is_authenticated %}
+						{% if request.user.id == post.author.id or request.user.is_staff%}
+						<a class="btn btn-info btn-lg col-md-3 m-2" href="{% url 'blog:post_update' post.id %}">
+							Edit Post
+							<span class="text-dark">
+								<i class="bi bi-pencil-square"></i>
+							</span>
+						</a>
 
-					<a class="btn btn-info btn-lg col-md-3 m-2" href="{% url 'blog:post_update' post.id %}">
-						Edit Post
-						<span class="text-dark">
-							<i class="bi bi-pencil-square"></i>
-						</span>
-					</a>
+						<!-- Button trigger modal -->
+						<button type="button" class="btn btn-danger btn-lg col-md-3 m-2" data-toggle="modal"
+							data-target="#exampleModal">
+							Delete Post
+							<span class="text-light">
+								<i class="bi bi-trash-fill"></i>
+							</span>
+						</button>
 
-					<!-- Button trigger modal -->
-					<button type="button" class="btn btn-danger btn-lg col-md-3 m-2" data-bs-toggle="modal"
-						data-bs-target="#exampleModal">
-						<span class="text-dark">
-							<i class="bi bi-trash-fill"></i>
-						</span>
-						Delete Post
-					</button>
+						<!-- Modal -->
+						<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+							aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete blog "{{post.title}}</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<form action="{% url 'blog:post_delete' post.pk %}" method="post">
+											{% csrf_token %}
+											<input class="btn btn-danger btn-lg col-md-5 m-2" type="submit"
+												value="Yes!">
 
-					<!-- Modal -->
-					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-						aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete Blog "{{post.title}}"</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal"
-										aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-									<form action="{% url 'blog:post_delete' post.pk %}" method="post">
-										{% csrf_token %}
-										<input class="btn btn-danger btn-lg col-md-5 m-2" type="submit" value="Yes!">
-
-										<a class="btn btn-info btn-lg col-md-5 m-2"
-											href="{% url 'blog:post_list' %}">
-											No, Cancel!
-										</a>
-									</form>
+											<a class="btn btn-info btn-lg col-md-5 m-2"
+												href="{% url 'blog:post_list' %}">
+												No, Cancel!
+											</a>
+										</form>
+									</div>
 								</div>
 							</div>
 						</div>
+
+						{% endif %}
+						{% endif %}
 					</div>
+				</p>
+			</div>
+
+
+
+			<div class="col-lg-4">
+				<div class="widget">
+					<h6 class="mb-4">TAGS</h6>
+					<ul class="list-inline tag-list">
+						{% for tag in post.tags.all %}
+						<li class="list-inline-item m-1"><a
+								href="{% url 'blog:post_list_by_tag' tag.slug %}">{{tag.name}}</a></li>
+						{% if not forloop.last %} {% endif %}
+						{% endfor %}
+					</ul>
 				</div>
-			</p>
-		</div>
 
-		<div class="col-lg-4 my-2 d-none d-lg-block">
-			{% include "blog/partials/sidebar.html" %}
-		</div>
+				<div class="widget">
+					<h6 class="mb-4">SIMILAR POSTS</h6>
+					{% for post in similar_posts|slice:":2" %}
+					<div class="media mb-4">
+						<div class="post-thumb-sm mr-3">
+							<img class="img-fluid latest-posts-img" src="{{post.cover_image.url}}" alt="post-thumb">
+						</div>
+						<div class="media-body">
+							<ul class="list-inline d-flex justify-content-between mb-2">
+								<li class="list-inline-item">Post By {{post.author.username}}</li>
+								<li class="list-inline-item">{{post.publish}}</li>
+							</ul>
+							<h6><a class="text-dark"
+									href="{{ post.get_absolute_url }}">{{post.title|striptags|truncatewords_html:5}}</a>
+							</h6>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
 
+				<div class="widget">
+					<h6 class="mb-4">LATEST POST</h6>
+					{% for post in posts|slice:":2" %}
+					<div class="media mb-4">
+						<div class="post-thumb-sm mr-3">
+							<img class="img-fluid latest-posts-img" src="{{post.cover_image.url}}" alt="post-thumb">
+						</div>
+						<div class="media-body">
+							<ul class="list-inline d-flex justify-content-between mb-2">
+								<li class="list-inline-item">Post By {{post.author.username}}</li>
+								<li class="list-inline-item">{{post.publish}}</li>
+							</ul>
+							<h6><a class="text-dark"
+									href="{{ post.get_absolute_url }}">{{post.title|striptags|truncatewords_html:5}}</a>
+							</h6>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+
+				<div class="widget">
+					<h6 class="mb-4">MOST COMMENTED POST</h6>
+					{% get_most_commented_posts 2  as most_commented_posts%}
+					{% for post in most_commented_posts %}
+					<div class="media mb-4">
+						<div class="post-thumb-sm mr-3">
+							<img class="img-fluid latest-posts-img" src="{{post.cover_image.url}}" alt="post-thumb">
+						</div>
+						<div class="media-body">
+							<ul class="list-inline d-flex justify-content-between mb-2">
+								<li class="list-inline-item">Post By {{post.author.username}}</li>
+								<li class="list-inline-item">{{post.publish}}</li>
+							</ul>
+							<h6><a class="text-dark"
+									href="{{ post.get_absolute_url }}">{{post.title|striptags|truncatewords_html:5}}</a>
+							</h6>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+
+			</div>
+		</div>
 	</div>
-
-</div>
+</section>
+<!-- /blog single -->
 
 <div class="row py-2">
-	<div class="col-lg-6 col-md-12 col-sm-12">
+	<div class="col-12">
 		{% with comments.count as total_comments %}
-		<h2 class="text-center">
-			{{ total_comments }} comment{{ total_comments|pluralize }}
-		</h2>
+		<h3 class="text-center">
+			{{ total_comments }} comment{{ total_comments|pluralize }} shared
+		</h3>
 		{% endwith %}
 
 		{% for comment in comments %}
-		<div class="border-start border-{{comment.color}} border-5 px-4 mb-5">
-			<p>Comment {{forloop.revcounter }} by {{comment.name}}</p>
+		<div class="border-start border-dark border-5 px-4 mb-5">
+			<h5 class="fw-bolder">Comment {{forloop.revcounter }} by {{comment.name}}</h5>
 			<div>
 				{{ comment.body|linebreaks }}
 			</div>
 		</div>
 		{% empty %}
-		<h3 class="text-center pb-4">There are no comments!</h3>
+		<h5 class="text-center pb-4">There are no comments!</h5>
 		{% endfor %}
 	</div>
 
@@ -132,11 +222,6 @@
 			</span>
 		</form>
 	</div> -->
-
-	<div class="col-lg-12 my-2 d-lg-none d-md-block d-sm-block">
-		{% include "blog/partials/sidebar.html" %}
-
-	</div>
 </div>
-
+{% endif %}
 {% endblock content %}

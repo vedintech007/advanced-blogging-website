@@ -24,7 +24,7 @@ class BlogPostUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ('cover_image', 'title', 'body', 'tags', 'status')
+        fields = ('cover_image', 'title', 'body', 'tags', 'status', 'featured')
 
 
 class EmailPostForm(forms.Form):
@@ -45,6 +45,19 @@ class EmailPostForm(forms.Form):
 
 
 class CommentForm(forms.ModelForm):
+    email = forms.EmailField(
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'We do not share your email or personal info'
+            }
+        )
+    )
+
+    body = forms.CharField(
+        label="Your Comment",
+        widget=forms.Textarea()
+    )
+
     class Meta:
         model = Comment
         fields = ('name', 'email', 'body')

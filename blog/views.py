@@ -90,17 +90,35 @@ def post_detail(request, year, month, day, post):
     posts = Post.published.all()[:2]
     form = SearchForm()
 
+    query = None
+    blog_filtered = False
+
+    # Blog Search Filter logic
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+
+            if query == '' or query == None:
+                return redirect('blog:post_list')
+            else:
+                object_list = Post.published.annotate(
+                    search=SearchVector('title', 'body'),
+                ).filter(search=query)
+                blog_filtered = True
+
     # List Similar posts
     post_tag_ids = post.tags.values_list('id', flat=True)
     similar_posts = Post.published.filter(
         tags__in=post_tag_ids).exclude(id=post.id)
     similar_posts = similar_posts.annotate(same_tags=Count(
-        'tags')).order_by('-same_tags', '-publish')[:2]
+        'tags')).order_by('-same_tags', '-publish')
 
     # list the active comments for this post
     # we use post.comments.filter() bcos we added related_name='comment' to the comments model
     comments = post.comment.filter(active=True)
 
+	# add comment login
     new_comment = None
 
     if request.method == "POST":
@@ -127,7 +145,9 @@ def post_detail(request, year, month, day, post):
         'new_comment': new_comment,
         'comment_form': comment_form,
         'similar_posts': similar_posts,
-        'form': form
+        'form': form,
+        'query': query,
+        'blog_filtered': blog_filtered,
     }
 
     return render(request, 'blog/post/detail.html', context)
@@ -194,6 +214,7 @@ def update_post(request, pk):
 
     return render(request, 'blog/post/blog_update.html', context)
 
+
 @login_required
 def delete_post(request, pk):
     post = Post.objects.get(id=pk)
@@ -206,6 +227,7 @@ def delete_post(request, pk):
     else:
         messages.error(request, f"Error deleting blog '{title}'")
         return redirect('blog:post_list')
+
 
 @login_required
 def user_blogs(request):
@@ -256,6 +278,24 @@ def user_blogs(request):
 @login_required
 def user_blog_detail(request, pk):
     post = Post.objects.get(id=pk)
+    form = SearchForm()
+    query = None
+    blog_filtered = False
+    posts = Post.published.all()
+
+    # Blog Search Filter logic
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+
+            if query == '' or query == None:
+                return redirect('blog:post_list')
+            else:
+                object_list = Post.published.annotate(
+                    search=SearchVector('title', 'body'),
+                ).filter(search=query)
+                blog_filtered = True
 
     # List Similar posts
     post_tag_ids = post.tags.values_list('id', flat=True)
@@ -270,8 +310,12 @@ def user_blog_detail(request, pk):
 
     context = {
         'post': post,
+        'posts': posts,
         'comments': comments,
         'similar_posts': similar_posts,
+        'form': form,
+        'query': query,
+        'blog_filtered': blog_filtered,
     }
 
     return render(request, 'blog/post/user_blog_details.html', context)

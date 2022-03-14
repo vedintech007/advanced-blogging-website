@@ -49,8 +49,8 @@
 				<h3 class="py-5">Oops, No Blogs found...</h3>
 				<a class="btn btn-success btn-lg" href="{% url 'blog:post_list' %}">Back To Blogs</a>
 				{% else %}
-				<h3 class="my-5">You have no blogs posted yet...</h3>
-				<a class="btn btn-success btn-lg" href="{% url 'blog:new_blog' %}">Start Blogging Now</a>
+				<h3 class="my-5">You have no rejected blogs...</h3>
+				<a class="btn btn-success btn-lg" href="{% url 'blog:new_blog' %}">Create A New Blog</a>
 				{% endif %}
 			</div>
 			{% endfor %}
