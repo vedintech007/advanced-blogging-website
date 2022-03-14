@@ -4,10 +4,14 @@
     <div class="blog-detail-cover-image pt-3">
       <span class="d-flex justify-content-center p-5">
         {% if tag %}
-        <h4 class="text-white">{{object_list}} post{{object_list|pluralize}} tagged with "{{tag.name}}"</h4>
+        <h4 class="text-white">
+          {{object_list}} post{{object_list|pluralize}} tagged with <span class="fw-bolder text-info">{{tag.name}}</span>
+        </h4>
         {% endif %}
         {% if blog_filtered %}
-        <h4 class="text-white">{{object_list}} post{{object_list|pluralize}} available for your filter</h4>
+        <h4 class="text-white">
+          {{object_list}} post{{object_list|pluralize}} available for your filter
+        </h4>
         {% endif %}
       </span>
 
@@ -26,7 +30,7 @@
           <li class="border-bottom mb-4 pb-3">
             <h4><a href="#" class="text-dark">{{ post.title }}</a></h4>
             <p>{{post.publish}}</p>
-            <p>{{post.body|striptags|truncatewords_html:20}}</p>
+            <p>{{post.body|striptags|truncatewords_html:30}}</p>
             <a href="{{post.get_absolute_url}}" class="btn btn-transparent pl-0">Read More</a>
           </li>
 

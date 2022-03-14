@@ -59,7 +59,7 @@ def post_list(request, tag_slug=None):
         object_list = object_list.filter(tags__in=[tag])
 
     # Pagination logic
-    paginator = Paginator(object_list, 12)  # number of posts to show per page
+    paginator = Paginator(object_list, 9)  # number of posts to show per page
     page = request.GET.get('page')
 
     try:
@@ -87,13 +87,14 @@ def post_list(request, tag_slug=None):
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post, status='published',
                             publish__year=year, publish__month=month, publish__day=day)
+    posts = Post.published.all()[:2]
 
     # List Similar posts
     post_tag_ids = post.tags.values_list('id', flat=True)
     similar_posts = Post.published.filter(
         tags__in=post_tag_ids).exclude(id=post.id)
     similar_posts = similar_posts.annotate(same_tags=Count(
-        'tags')).order_by('-same_tags', '-publish')[:5]
+        'tags')).order_by('-same_tags', '-publish')[:2]
 
     # list the active comments for this post
     # we use post.comments.filter() bcos we added related_name='comment' to the comments model
@@ -120,6 +121,7 @@ def post_detail(request, year, month, day, post):
 
     context = {
         'post': post,
+        'posts': posts,
         'comments': comments,
         'new_comment': new_comment,
         'comment_form': comment_form,

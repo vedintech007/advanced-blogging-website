@@ -12,17 +12,17 @@
 		{% include "blog/post/search.html" %}
 		{% else %}
 
-		<div class="row featured-post-slider">
-			<!-- for loop 5 top ones -->
-
-			{% for post in posts %}
+		<div class="row featured-post-slider mb-5">
+			<!-- for loop 4 top or featured posts -->
+			{% for post in posts|slice:":4" %}
 			<div class="col-lg-3 col-sm-6 mb-2 mb-lg-0 px-1 blogs-shadow-f">
 				<article class="card bg-dark text-center text-white border-0 rounded-0">
 					<img class="card-img rounded-0 img-fluid w-100 cover-image" src="{{ post.cover_image.url }}"
 						alt="{{ post.title }}'s blog cover image">
 					<div class="card-img-overlay">
 						<div class="card-content">
-							<h4 class="card-title mb-4"><a class="text-white" href="{{post.get_absolute_url}}">{{ post.title }}</a></h4>
+							<h4 class="card-title mb-4"><a class="text-white"
+									href="{{post.get_absolute_url}}">{{ post.title }}</a></h4>
 							<a class="btn btn-outline-light" href="{{post.get_absolute_url}}">read more</a>
 						</div>
 					</div>
@@ -40,7 +40,7 @@
 			{% endfor %}
 
 		</div>
-		
+
 	</div>
 </section>
 <!-- /featured post -->
@@ -75,28 +75,7 @@
 		</div>
 		{% endif %}
 		<!-- pagination -->
-		<div class="row">
-			<div class="col-12">
-				<nav>
-					<ul class="pagination justify-content-center align-items-center">
-						<li class="page-item">
-							<span class="page-link">&laquo; Previous</span>
-						</li>
-						<li class="page-item"><a class="page-link" href="#">01</a></li>
-						<li class="page-item active">
-							<span class="page-link">02</span>
-						</li>
-						<li class="page-item"><a class="page-link" href="#">03</a></li>
-						<li class="page-item"><a class="page-link" href="#">04</a></li>
-						<li class="page-item"><a class="page-link" href="#">05</a></li>
-						<li class="page-item"><a class="page-link" href="#">06</a></li>
-						<li class="page-item">
-							<a class="page-link" href="#">Next &raquo;</a>
-						</li>
-					</ul>
-				</nav>
-			</div>
-		</div>
+		{% include "blog/partials/pagination.html" %}
 
 	</div>
 </section>
