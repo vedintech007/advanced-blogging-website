@@ -21,7 +21,7 @@
 						alt="{{ post.title }}'s blog cover image">
 					<div class="card-img-overlay">
 						<div class="card-content">
-							<p class="text-uppercase">FEATURED</p>
+							<p class="text-uppercase" style="font-weight: 700;">FEATURED</p>
 							<h4 class="card-title mb-4"><a class="text-white"
 									href="{{post.get_absolute_url}}">{{ post.title }}</a></h4>
 							<a class="btn btn-outline-light" href="{{post.get_absolute_url}}">read more</a>
@@ -76,7 +76,9 @@
 		</div>
 		{% endif %}
 		<!-- pagination -->
+		{% if object_list > 9 %}
 		{% include "blog/partials/pagination.html" %}
+		{% endif %}
 
 	</div>
 </section>

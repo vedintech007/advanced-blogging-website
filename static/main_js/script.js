@@ -18,7 +18,7 @@
 
   $('.featured-post-slider').slick({
     dots: false,
-    speed: 300,
+    speed: 200,
     autoplay: true,
     arrows: false,
     slidesToShow: 4,
@@ -31,7 +31,7 @@
         }
     },
     {
-      breakpoint: 1250,
+      breakpoint: 1400,
       settings: {
         slidesToShow: 3
       }

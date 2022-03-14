@@ -1,6 +1,6 @@
 {% if request.user.is_authenticated %}
 
-{% include "../partials/messages.html" %}
+{% include "../partials/main_messages.html" %}
 
 <header class="navigation">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -71,7 +71,7 @@
 </header>
 
 {% else %}
-{% include "../partials/messages.html" %}
+{% include "../partials/main_messages.html" %}
 <header class="navigation">
 	<nav class="navbar navbar-expand-lg navbar-light">
 		<a class="navbar-brand" href="{% url 'blog:post_list' %}">
