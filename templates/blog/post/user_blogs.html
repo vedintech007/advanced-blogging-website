@@ -1,61 +1,61 @@
-{% extends "blog/base.html" %}
+{% extends "blog/partials/main_base.html" %}
 {% load static %}
 {% load blog_tags %}
 {% block title %}User Blogs Page{% endblock title %}
 
 {% block content %}
 {% if request.user.is_authenticated %}
+<!-- page-title -->
+<section class="section">
+	<div class="container-fluid">
+		<div class="blog-detail-cover-image pt-3">
+			<span class="d-flex justify-content-center p-5">
+				<h4 class="text-white">
+					Your Personal Blogs
+				</h4>
 
-<div class="row">
-	<div class="col-lg-12 col-md-12 my-1">
+			</span>
 
-		{% include "blog/post/search_form.html" %}
-
-		{% if blog_filtered %}
-			<div class="my-3">
-				<h3>{{object_list}} Post{{object_list|pluralize}} available for your filter</h3>
-			</div>
-		{% else %}
-		<div class="my-4 text-center">
-			<h3>Your Personal Blogs</h3>
 		</div>
-		{% endif %}
-		
-		<!-- All Post Section Blog Home Page-->
+</section>
+<!-- /page-title -->
+
+<!-- search result -->
+<section class="section">
+	<div class="container">
 		<div class="row">
 			{% for post in posts %}
-			<div class="col-md-6 col-lg-4 col-xl-4 col-xxl-3 my-3">
-				<div class="card shadow">
-					<div class="card-image">
-						<img class="img-fluid cover-image" src="{{ post.cover_image.url }}"
-							alt="{{ post.title }}'s blog cover image" draggable="false">
-					</div>
-					<div class="card-title mt-4 p-1">
-						<a class="text-decoration-none text-info fs-3 fw-light"
-							href="{% url 'blog:user_blog_detail' post.pk %}">{{ post.title }}</a>
-					</div>
+			<div class="col-lg-10 mx-auto">
+				<ul class="list-unstyled">
 
-					<div class="card-footer text-info">
-						{% if post.status == "draft" %}
-						Status: <span class="text-info">Pending</span>
-						{% endif %}
+					<li class="border-bottom mb-4 pb-3">
+						<h4><a href="{% url 'blog:user_blog_detail' post.pk %}" class="text-dark">{{ post.title }}</a> -
+							<span>
+								{% if post.status == "draft" %}
+								Status: <span class="text-info">Pending</span>
+								{% endif %}
 
-						{% if post.status == "published" %}
-						Status: <span class="text-info">Published</span>
-						{% endif %}
+								{% if post.status == "published" %}
+								Status: <span class="text-info">Published</span>
+								{% endif %}
 
-						{% if post.status == "rejected" %}
-						Status: <span class="text-info">Rejected</span>
-						{% endif %}
-					</div>
+								{% if post.status == "rejected" %}
+								Status: <span class="text-info">Rejected</span>
+								{% endif %}
+							</span></h4>
+						<p>{{post.publish}}</p>
+						<p>{{post.body|striptags|truncatewords_html:30}}</p>
+						<a href="{% url 'blog:user_blog_detail' post.pk %}" class="btn btn-transparent pl-0">See
+							Details</a>
+					</li>
 
-				</div>
+				</ul>
 			</div>
 			{% empty %}
-			<div class="text-center">
+			<div class="text-center mx-auto">
 				{% if blog_filtered %}
 				<h3 class="py-5">Oops, No Blogs found...</h3>
-				<a class="btn btn-success btn-lg" href="{% url 'blog:post_list' %}">Back To Blogs</a>
+				<a class="btn btn-success btn-lg" href="{% url 'blog:user_blogs' %}">Back To Blogs</a>
 				{% else %}
 				<h3 class="my-5">You have no blogs posted yet...</h3>
 				<a class="btn btn-success btn-lg" href="{% url 'blog:new_blog' %}">Start Blogging Now</a>
@@ -63,14 +63,16 @@
 			</div>
 			{% endfor %}
 
-			{% if object_list > 9 %}
-				{% include "blog/partials/pagination.html" %}
-			{% endif %}
-			
-		</div>
-		<!-- All Post Section -->
 
+
+		</div>
 	</div>
-</div>
+</section>
+<!-- /search result -->
+
+{% endif %}
+
+{% if object_list > 9 %}
+{% include "blog/partials/pagination.html" %}
 {% endif %}
 {% endblock content %}

@@ -289,12 +289,12 @@ a.text-dark:hover {
 
 .section {
 	padding-top: 10px;
-	padding-bottom: 20px;
+	padding-bottom: 60px;
 }
 
 .section-sm {
-	padding-top: 10px;
-	padding-bottom: 20px;
+	padding-top: 80px;
+	padding-bottom: 80px;
 }
 
 .section-title {
@@ -899,10 +899,11 @@ blockquote {
 
 .blog-detail-cover-image{
 	background-image: url('../site_images/detail-cover.jpg');
+	
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
-	background-color: aqua;
+	background-color: white;
 
 	width: 100%;
 	height: 200px;

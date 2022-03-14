@@ -25,7 +25,7 @@
 				<li class="nav-item dropdown">
 					<a class="nav-link text-uppercase text-dark dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						VED
+					{{request.user.username}}
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<a class="dropdown-item" href="{% url 'blog:user_blogs' %}">My Blogs</a>
