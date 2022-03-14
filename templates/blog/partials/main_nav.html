@@ -1,0 +1,124 @@
+{% if request.user.is_authenticated %}
+
+{% include "../partials/messages.html" %}
+
+<header class="navigation">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-md-top">
+		<a class="navbar-brand" href="{% url 'blog:post_list' %}">
+			<span class="text-info"><i class="bi bi-vinyl"></i></span>
+			<span class="text-info">VED</span><span class="text-danger">IN</span><span>TECH</span>
+		</a>
+		<button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navogation"
+			aria-controls="navogation" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse text-center" id="navogation">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<a class="nav-link text-uppercase text-dark" href="{% url 'blog:post_list' %}">Blogs</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-uppercase text-dark" href="#">Contact</a>
+				</li>
+
+				<li class="nav-item dropdown">
+					<a class="nav-link text-uppercase text-dark dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						VED
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="{% url 'blog:user_blogs' %}">My Blogs</a>
+						<a class="dropdown-item" href="{% url 'blog:new_blog' %}">Create New Blog</a>
+						<hr>
+						<a class="dropdown-item" href="{% url 'all_users' %}">All Users</a>
+						<a class="dropdown-item" href="{% url 'blog:pending_blogs' %}">Pending Blogs</a>
+						<a class="dropdown-item" href="{% url 'blog:rejected_blogs' %}">Rejected Blogs</a>
+						<hr>
+						<a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+						<a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a>
+						<a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+					</div>
+				</li>
+
+				<li class="nav-item dropdown">
+					<a class="nav-link text-uppercase text-dark dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						DOCS
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="#">How to write a post</a>
+						<a class="dropdown-item" href="#">The Rich Text Editor</a>
+						<hr>
+						<a class="dropdown-item"
+							href="https://github.com/Victorspy-web/advanced-blogging-website">Source Code</a>
+					</div>
+				</li>
+			</ul>
+
+			<form class="form-inline position-relative ml-lg-4">
+				{{form}}
+				<a href="search.html" class="search-icon"><i class="ti-search text-dark"></i></a>
+			</form>
+			<datalist id="suggestions">
+				{% for post in posts %}
+				<!--|slice:"5" -->
+				<option value="{{post.title}}">{{post.body|striptags|truncatewords_html:3}}</option>
+				{% endfor %}
+			</datalist>
+
+		</div>
+	</nav>
+</header>
+
+{% else %}
+{% include "../partials/messages.html" %}
+<header class="navigation">
+	<nav class="navbar navbar-expand-lg navbar-light">
+		<a class="navbar-brand" href="{% url 'blog:post_list' %}">
+			<span class="text-info"><i class="bi bi-vinyl"></i></span>
+			<span class="text-info">VED</span><span class="text-danger">IN</span><span>TECH</span>
+		</a>
+		<button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navogation"
+			aria-controls="navogation" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse text-center" id="navogation">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<a class="nav-link text-uppercase text-dark" href="{% url 'blog:post_list' %}">Blogs</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-uppercase text-dark" href="#">Contact</a>
+				</li>
+
+				<li class="nav-item dropdown">
+					<a class="nav-link text-uppercase text-dark dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						MORE LINKS
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="{% url 'login' %}">Login</a>
+						<a class="dropdown-item" href="{% url 'register' %}">Register</a>
+						<a class="dropdown-item" href="{% url 'password_reset' %}">Reset Password</a>
+						<hr>
+						<a class="dropdown-item" href="https://github.com/Victorspy-web/advanced-blogging-website"
+							target="_blank">Source Code</a>
+					</div>
+				</li>
+			</ul>
+			<form class="form-inline position-relative ml-lg-4">
+				{{form}}
+				<datalist id="suggestions">
+					{% for post in posts %}
+					<!--|slice:"5" -->
+					<option value="{{post.title}}">{{post.body|striptags|truncatewords_html:3}}</option>
+					{% endfor %}
+				</datalist>
+				<a href="search.html" class="search-icon"><i class="ti-search text-dark"></i></a>
+			</form>
+		</div>
+	</nav>
+</header>
+{% endif %}

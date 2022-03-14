@@ -1,0 +1,134 @@
+{% extends "blog/base.html" %}
+{% block title %}Blog Details Page{% endblock title %}
+{% load blog_tags %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div class="container">
+	<div class="row">
+
+		<div>
+			<div class="blog-detail-cover-image pt-3">
+				<span class="d-flex justify-content-center p-5 text-white">
+					<h1>{{post.title}}</h1>
+				</span>
+			</div>
+		</div>
+
+		<div class="col-lg-8 col-md-12 my-1">
+			<p class="my-2 fw-bold"><span>Tags: {{ post.tags.all|join:', '}}</span></p>
+			<p class="my-3 fw-bold opacity-75">Publishd {{post.publish}} <span class="mx-2">By
+					{{post.author.username}}</span>
+			</p>
+			<div class="text-justify">
+				{{post.body|safe|linebreaks}}
+			</div>
+
+			<!-- Share Post Through Google -->
+			<p class="py-3">
+				<div class="row">
+					<a class="btn btn-primary btn-lg col-md-3 m-2" href="{% url 'blog:post_share' post.id %}">
+						Share post
+						<span class="text-danger">
+							<i class="bi bi-google"></i>
+						</span>
+					</a>
+					{% if request.user.is_authenticated %}
+					{% if request.user.id == post.author.id or request.user.is_staff%}
+					<a class="btn btn-info btn-lg col-md-3 m-2" href="{% url 'blog:post_update' post.id %}">
+						Edit Post
+						<span class="text-dark">
+							<i class="bi bi-pencil-square"></i>
+						</span>
+					</a>
+
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-danger btn-lg col-md-3 m-2" data-bs-toggle="modal"
+						data-bs-target="#exampleModal">
+						Delete Post
+						<span class="text-light">
+							<i class="bi bi-trash-fill"></i>
+						</span>
+					</button>
+
+					<!-- Modal -->
+					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete Blog "{{post.title}}"</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<form action="{% url 'blog:post_delete' post.pk %}" method="post">
+										{% csrf_token %}
+										<input class="btn btn-danger btn-lg col-md-5 m-2" type="submit" value="Yes!">
+
+										<a class="btn btn-info btn-lg col-md-5 m-2"
+											href="{% url 'blog:post_list' %}">
+											No, Cancel!
+										</a>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					{% endif %}
+					{% endif %}
+				</div>
+			</p>
+		</div>
+
+		<div class="col-lg-4 my-2 d-none d-lg-block">
+			{% include "blog/partials/sidebar.html" %}
+		</div>
+
+	</div>
+
+</div>
+
+
+
+<div class="row py-5">
+	<div class="col-lg-6 col-md-12 col-sm-12">
+		{% with comments.count as total_comments %}
+		<h2 class="text-center">
+			{{ total_comments }} comment{{ total_comments|pluralize }}
+		</h2>
+		{% endwith %}
+
+		{% for comment in comments %}
+		<div class="border-start border-{{comment.color}} border-5 px-4 mb-5">
+			<p>Comment {{forloop.revcounter }} by {{comment.name}}</p>
+			<div>
+				{{ comment.body|linebreaks }}
+			</div>
+		</div>
+		{% empty %}
+		<h3 class="text-center pb-4">There are no comments!</h3>
+		{% endfor %}
+	</div>
+
+	<div class="col-lg-6 col-md-12 col-sm-12">
+		<h3 class="text-center">Add a comment</h3>
+		<form action="" method="POST">
+			{% csrf_token %}
+			{{comment_form|crispy}}
+			<span class=" d-flex justify-content-center">
+				<input type="submit" class="btn btn-primary btn-lg my-2 col-12" value="Add Comment">
+			</span>
+		</form>
+	</div>
+
+	<div class="col-lg-12 my-2 d-lg-none d-md-block d-sm-block">
+		{% include "blog/partials/sidebar.html" %}
+
+	</div>
+</div>
+
+{% endblock content %}

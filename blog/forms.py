@@ -57,7 +57,7 @@ class SearchForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Search for blogs...',
-                'class': 'form-control my-1 p-3 fs-4',
+                'class': 'form-control my-1 p-3 fs-4  px-0 w-100',
                 'type': 'search',
                 'list': 'suggestions',
             }

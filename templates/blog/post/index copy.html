@@ -1,0 +1,72 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% load blog_tags %}
+{% block title %}Blog Home Page{% endblock title %}
+
+{% block content %}
+<div class="row">
+	<div class="col-lg-12 col-md-12 my-1">
+
+		{% include "blog/post/search_form.html" %}
+
+		<!-- Activity message display -->
+
+		{% if tag %}
+			<div class="my-3">
+				<h3>{{object_list}} Post{{object_list|pluralize}} tagged with "{{tag.name}}"</h3>
+			</div>
+		{% endif %}
+
+		{% if blog_filtered %}
+			<div class="my-3">
+				<h3>{{object_list}} Post{{object_list|pluralize}} available for your filter</h3>
+			</div>
+		{% endif %}
+
+		<!-- End Activity message display -->
+		
+		<!-- All Post Section -->
+		<div class="row">
+			{% for post in posts %}
+			<div class="col-md-6 col-lg-4 col-xl-4 col-xxl-3 my-3">
+				<div class="card shadow">
+					<div class="card-image">
+						<img class="img-fluid cover-image" src="{{ post.cover_image.url }}"
+							alt="{{ post.title }}'s blog cover image" draggable="false">
+					</div>
+					<div class="card-title mt-4 p-1">
+						<a class="text-decoration-none text-info fs-3 fw-light"
+							href="{{post.get_absolute_url}}">{{ post.title }}</a>
+					</div>
+
+					<div class="card-text lh-lg opacity-75 p-1">
+						{{post.body|striptags|truncatewords_html:13}}
+					</div>
+
+					<div class="card-footer text-info">
+						Published {{ post.publish }}<br> By {{ post.author.username|upper }}
+					</div>
+
+				</div>
+			</div>
+			{% empty %}
+			<div class="text-center">
+				{% if blog_filtered %}
+				<h3 class="py-5">Oops, No Blogs found...</h3>
+				<a class="btn btn-success btn-lg" href="{% url 'blog:post_list' %}">Back To Blogs</a>
+				{% else %}
+				<h3 class="my-5">There are no blogs yet...</h3>
+				{% endif %}
+			</div>
+			{% endfor %}
+
+			{% if object_list > 9 %}
+				{% include "blog/partials/pagination.html" %}
+			{% endif %}
+			
+		</div>
+		<!-- All Post Section -->
+
+	</div>
+</div>
+{% endblock content %}

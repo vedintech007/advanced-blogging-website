@@ -1,0 +1,40 @@
+<!-- page-title -->
+<section class="section sticky-top">
+  <div class="container-fluid">
+    <div class="blog-detail-cover-image pt-3">
+      <span class="d-flex justify-content-center p-5">
+        {% if tag %}
+        <h4 class="text-white">{{object_list}} post{{object_list|pluralize}} tagged with "{{tag.name}}"</h4>
+        {% endif %}
+        {% if blog_filtered %}
+        <h4 class="text-white">{{object_list}} post{{object_list|pluralize}} available for your filter</h4>
+        {% endif %}
+      </span>
+
+    </div>
+</section>
+<!-- /page-title -->
+
+<!-- search result -->
+<section class="section">
+  <div class="container">
+    <div class="row">
+      {% for post in posts %}
+      <div class="col-lg-10 mx-auto">
+        <ul class="list-unstyled">
+
+          <li class="border-bottom mb-4 pb-3">
+            <h4><a href="#" class="text-dark">{{ post.title }}</a></h4>
+            <p>{{post.publish}}</p>
+            <p>{{post.body|striptags|truncatewords_html:20}}</p>
+            <a href="{{post.get_absolute_url}}" class="btn btn-transparent pl-0">Read More</a>
+          </li>
+
+        </ul>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+<!-- /search result -->
