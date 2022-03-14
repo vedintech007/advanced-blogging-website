@@ -89,28 +89,6 @@ h6,
 	font-size: 16px;
 }
 
-/* Button style */
-/* .btn {
-	font-size: 15px;
-	font-family: "Open Sans", sans-serif;
-	text-transform: capitalize;
-	padding: 8px 20px;
-	border-radius: 0;
-	font-weight: 600;
-	border: 1px solid;
-	position: relative;
-	z-index: 1;
-	transition: 0.2s ease;
-}
-
-.btn:focus {
-	outline: 0;
-	box-shadow: none !important;
-}
-
-.btn:active {
-	box-shadow: none;
-}
 
 .btn-primary {
 	background: #ff6f00;
@@ -121,27 +99,6 @@ h6,
 .btn-primary:active {
 	background: #ff6f00 !important;
 } */
-
-/* .btn-primary:hover {
-	background: #ff8c33;
-}
-
-.btn-outline-light {
-	background: transparent;
-	color: #fff;
-}
-
-.btn-outline-light:active {
-	background: #fff !important;
-	color: #000000;
-	border-color: #fff;
-}
-
-.btn-outline-light:hover {
-	background: #fff !important;
-	color: #000000;
-	border-color: #fff;
-}
 
 .btn-transparent {
 	color: #ff6f00;

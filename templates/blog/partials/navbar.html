@@ -3,12 +3,11 @@
 
 {% include "../partials/messages.html" %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow sticky-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow sticky-top p-4">
 	<div class="container">
 		<a class="navbar-brand" href="{% url 'blog:post_list' %}">
 			<span class="text-info"><i class="bi bi-vinyl"></i></span>
 			<span class="text-info">VED</span><span class="text-danger">IN</span><span>TECH</span>
-			<span class="text-secondary fw-bold">Blog</span>
 		</a>
 		<button class="navbar-toggler border-none text-dark rounded-pill" type="button" data-bs-toggle="collapse"
 			data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -16,7 +15,7 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav m-auto">
+			<ul class="navbar-nav ms-auto">
 
 				<li class="nav-item">
 					<a class="nav-link active" aria-current="page" href="{% url 'blog:post_list' %}">Blogs</a>
@@ -79,12 +78,11 @@
 
 {% else %}
 {% include "../partials/messages.html" %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow">
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow p-4">
 	<div class="container">
 		<a class="navbar-brand" href="{% url 'blog:post_list' %}">
 			<span class="text-info"><i class="bi bi-vinyl"></i></span>
 			<span class="text-info">VED</span><span class="text-danger">IN</span><span>TECH</span>
-			<span class="text-secondary fw-bold">Blog</span>
 		</a>
 		<button class="navbar-toggler border-none text-dark rounded-pill" type="button" data-bs-toggle="collapse"
 			data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -92,7 +90,7 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav m-auto">
+			<ul class="navbar-nav ms-auto">
 				<li class="nav-item">
 					<a class="nav-link active" aria-current="page" href="{% url 'blog:post_list' %}">Blogs</a>
 				</li>
