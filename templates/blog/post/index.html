@@ -53,7 +53,7 @@
 					<img class="img-fluid mb-4 cover-image-blogs" src="{{ post.cover_image.url }}" alt="post-thumb' %}" draggable="false">
 					<h4 class="title-border"><a class="text-dark" href="{{post.get_absolute_url}}">{{ post.title }}</a>
 					</h4>
-					<p>{{post.body|safe|striptags|truncatewords_html:17}}</p>
+					<p>{{post.body|safe|striptags|truncatewords_html:25}}</p>
 					<a class="text-dark" href="{{post.get_absolute_url}}" class="btn btn-transparent">read more</a>
 				</article>
 			</div>

@@ -204,13 +204,14 @@ def update_post(request, pk):
         post_form = BlogPostUpdateForm(request.POST, request.FILES, instance=post)
 
         if post_form.is_valid():
-            post_form.save()
-            
+            obj = post_form.save(commit=False)
+            if not request.user.is_staff:
+                obj.status = 'draft'
+            obj.save()
             messages.success(request, "Blog post updated successfully")
             return redirect('blog:post_list')
         else:
             messages.error(request, "Error updating your profile")
-            print(messages)
 
     context = {
         'post_form': post_form

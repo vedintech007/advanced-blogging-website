@@ -59,6 +59,7 @@ class Post(models.Model):
 def blog_post_pre_save(sender, instance, *args, **kwargs):
     instance.slug = slugify(instance.title)
 
+
 class Comment(models.Model):
 
     # Sorry i know this comment is too long but i wrote it for someone, please ignore.
