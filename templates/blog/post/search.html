@@ -28,8 +28,8 @@
         <ul class="list-unstyled">
 
           <li class="border-bottom mb-4 pb-3">
-            <h4><a href="#" class="text-dark">{{ post.title }}</a></h4>
-            <p>{{post.publish}}</p>
+            <h4><a href="{{post.get_absolute_url}}" class="text-dark">{{ post.title }}</a></h4>
+            <p>Published {{post.publish}} by {{post.author.username}}</p>
             <p>{{post.body|striptags|truncatewords_html:30}}</p>
             <a href="{{post.get_absolute_url}}" class="btn btn-transparent pl-0">Read More</a>
           </li>
