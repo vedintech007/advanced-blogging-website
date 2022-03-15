@@ -12,7 +12,7 @@ class BlogPostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ('cover_image', 'title', 'body', 'tags')
+        fields = ('cover_image', 'title', 'tags', 'body')
 
 
 class BlogPostUpdateForm(forms.ModelForm):

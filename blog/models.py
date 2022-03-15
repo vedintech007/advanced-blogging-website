@@ -1,7 +1,7 @@
 from ckeditor.fields import RichTextField
 from django.conf import settings
 from django.db import models
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
@@ -29,6 +29,8 @@ class Post(models.Model):
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    
+    # Admin usauge
     status = models.CharField(
         max_length=10, choices=STATUS_CHOICES, default='draft')
     featured = models.BooleanField(default=False, blank=True, null=True)
@@ -58,8 +60,6 @@ def blog_post_pre_save(sender, instance, *args, **kwargs):
     instance.slug = slugify(instance.title)
 
 class Comment(models.Model):
-
-    # color = random.choice(BOOSTRAP_COLOR)
 
     # Sorry i know this comment is too long but i wrote it for someone, please ignore.
     """ The related_name attribute allows you to name the attribute that you use for

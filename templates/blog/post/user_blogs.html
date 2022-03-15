@@ -45,8 +45,7 @@
 							</span></h4>
 						<p>{{post.publish}}</p>
 						<p>{{post.body|striptags|truncatewords_html:30}}</p>
-						<a href="{% url 'blog:user_blog_detail' post.pk %}" class="btn btn-transparent pl-0">See
-							Details</a>
+						<a href="{% url 'blog:user_blog_detail' post.pk %}" class="btn btn-transparent pl-0">Read More</a>
 					</li>
 
 				</ul>
@@ -72,7 +71,7 @@
 
 {% endif %}
 
-{% if object_list > 9 %}
+{% if post_count > 9 %}
 {% include "blog/partials/pagination.html" %}
 {% endif %}
 {% endblock content %}

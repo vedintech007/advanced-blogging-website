@@ -5,12 +5,12 @@
       <span class="d-flex justify-content-center p-5">
         {% if tag %}
         <h4 class="text-white">
-          {{object_list}} post{{object_list|pluralize}} tagged with <span class="fw-bolder text-info">{{tag.name}}</span>
+          {{post_count}} post{{post_count|pluralize}} tagged with <span class="fw-bolder text-info">{{tag.name}}</span>
         </h4>
         {% endif %}
         {% if blog_filtered %}
         <h4 class="text-white">
-          {{object_list}} post{{object_list|pluralize}} available for your Search
+          {{post_count}} post{{post_count|pluralize}} available for your Search
         </h4>
         {% endif %}
       </span>

@@ -7,6 +7,7 @@ from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from taggit.models import Tag
 
+
 from .forms import *
 from .models import *
 
@@ -34,6 +35,7 @@ def new_blog_post(request):
 
 def post_list(request, tag_slug=None):
     object_list = Post.published.all()
+    featured_posts = Post.published.filter(featured=True).order_by('-created')
     tag = None
     form = SearchForm()
     query = None
@@ -74,11 +76,14 @@ def post_list(request, tag_slug=None):
     context = {
         'page': page,
         'posts': posts,
-        'object_list': object_list.count(),
+        'post_count': object_list.count(),
         'tag': tag,
         'form': form,
         'query': query,
         'blog_filtered': blog_filtered,
+        
+        'featured_posts': featured_posts,
+        'featured_posts_count': featured_posts.count(),
     }
 
     return render(request, 'blog/post/index.html', context)
@@ -196,17 +201,16 @@ def update_post(request, pk):
     post_form = BlogPostUpdateForm(instance=post)
 
     if request.method == "POST":
-        post_form = BlogPostUpdateForm(
-            request.POST, request.FILES, instance=post)
+        post_form = BlogPostUpdateForm(request.POST, request.FILES, instance=post)
 
         if post_form.is_valid():
             post_form.save()
+            
             messages.success(request, "Blog post updated successfully")
             return redirect('blog:post_list')
         else:
             messages.error(request, "Error updating your profile")
-    # else:
-    #     post_form = BlogPostUpdateForm(instance=post)
+            print(messages)
 
     context = {
         'post_form': post_form

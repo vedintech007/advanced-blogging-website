@@ -12,13 +12,13 @@
 {% else %}
 
 <!-- featured post -->
-{% if object_list > 3 %}
+{% if featured_posts_count > 3 %}
 <section class="">
 	<div class="container-fluid p-sm-0">
 
 		<div class="row featured-post-slider">
 			<!-- for loop 4 top or featured posts -->
-			{% for post in posts|slice:":6" %}
+			{% for post in featured_posts|slice:":6" %}
 			<div class="col-lg-3 col-sm-6 mb-2 mb-lg-0 px-1 blogs-shadow-f">
 				<article class="card bg-dark text-center text-white border-0 rounded-0">
 					<img class="card-img rounded-0 img-fluid w-100 cover-image" src="{{ post.cover_image.url }}"
