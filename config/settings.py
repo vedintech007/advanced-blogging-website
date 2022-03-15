@@ -202,7 +202,6 @@ CKEDITOR_CONFIGS = {
             ['TextColor', 'BGColor'],
             ['Smiley', 'SpecialChar', 'Iframe'],
             ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['NumberedList', 'BulletedList'],
             ['Indent', 'Outdent'],
             ['ShowBlocks', 'Maximize'],
             ['Source', 'Preview', 'Print'],
