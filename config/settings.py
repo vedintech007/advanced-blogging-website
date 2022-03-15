@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     # django inbuilt apps
     'django.contrib.postgres',
 
@@ -191,3 +191,26 @@ LOGOUT_REDIRECT_URL = 'blog:post_list'
 LOGIN_URL = 'login'
 
 SITE_ID = 1
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar_Full': [
+            ['Styles', 'Format', 'Font', 'FontSize', 'Bold', 'Italic', 'Underline',
+            'Strike', 'Subscript', 'Superscript', 'SpellChecker', 'Undo', 'Redo'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['Image', 'Flash', 'Table', 'HorizontalRule'],
+            ['TextColor', 'BGColor'],
+            ['Smiley', 'SpecialChar', 'Iframe'],
+            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['NumberedList', 'BulletedList'],
+            ['Indent', 'Outdent'],
+            ['ShowBlocks', 'Maximize'],
+            ['Source', 'Preview', 'Print'],
+
+        ],
+
+        'tabSpaces': 4,
+    },
+
+}
+

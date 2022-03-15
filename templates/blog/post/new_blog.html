@@ -9,8 +9,29 @@
 <div class="form-group">
 <form action="" method="POST" enctype="multipart/form-data">
 	{% csrf_token %}
-	{{form.as_p}}
-	{{form.media}}
+	<p>{{form.media}}</p>
+
+		<label for="">Blog Cover cover_image</label>
+		<p>{{form.cover_image}}</p>
+		<br>
+
+		<label for="">{{form.title.label}}</label>
+		<p>{{form.title}}</p>
+
+		<label for="">Blog Post Design</label>
+		<p>{{form.body}}</p>
+
+		{% if request.user.is_staff %}
+			<label for="">{{form.status.label}}</label>
+			<p>{{form.status}}</p>
+			
+			<label for="">{{form.featured.label}}</label>
+			<p>{{form.featured}}</p>
+		{% else %}
+			<p>{{form.status.as_hidden}}</p>
+			
+			<p>{{form.featured.as_hidden}}</p>
+		{% endif %}
 	<input class="btn btn-success col-4" type="submit" value="Create Blog Post">
 	<a class="mx-auto btn btn-outline-danger col-lg-5" href="{% url 'blog:post_list' %}">Cancel</a>
 </form>

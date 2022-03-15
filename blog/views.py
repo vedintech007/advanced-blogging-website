@@ -51,7 +51,7 @@ def post_list(request, tag_slug=None):
                 return redirect('blog:post_list')
             else:
                 object_list = Post.published.annotate(
-                    search=SearchVector('title', 'body', 'author'),
+                    search=SearchVector('title', 'body'),
                 ).filter(search=query)
                 blog_filtered = True
 
