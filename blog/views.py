@@ -107,7 +107,7 @@ def post_detail(request, year, month, day, post):
             if query == '' or query == None:
                 return redirect('blog:post_list')
             else:
-                object_list = Post.published.annotate(
+                post = Post.published.annotate(
                     search=SearchVector('title', 'body'),
                 ).filter(search=query)
                 blog_filtered = True
@@ -295,7 +295,7 @@ def user_blog_detail(request, pk):
             query = form.cleaned_data['query']
 
             if query == '' or query == None:
-                return redirect('blog:post_list')
+                return redirect('blog:user_blogs')
             else:
                 object_list = Post.published.annotate(
                     search=SearchVector('title', 'body'),
@@ -340,7 +340,7 @@ def user_pending_blogs(request):
             query = form.cleaned_data['query']
 
             if query == '' or query == None:
-                return redirect('blog:user_blogs')
+                return redirect('blog:pending_blogs')
             else:
                 object_list = Post.objects.annotate(
                     search=SearchVector('title', 'body', 'status', 'author'),
@@ -386,7 +386,7 @@ def user_rejected_blogs(request):
             query = form.cleaned_data['query']
 
             if query == '' or query == None:
-                return redirect('blog:user_blogs')
+                return redirect('blog:rejected_blogs')
             else:
                 object_list = Post.objects.annotate(
                     search=SearchVector('title', 'body', 'status', 'author'),
@@ -416,3 +416,45 @@ def user_rejected_blogs(request):
     }
 
     return render(request, 'blog/post/user_rejected_blogs.html', context)
+
+
+def contact_us(request):
+    post = Post.published.all()
+    search_form = SearchForm()
+    query = None
+    contact_form = ContactUsForm
+    
+    blog_filtered = False
+
+    # Blog Search Filter logic
+    if 'query' in request.GET:
+        search_form = SearchForm(request.GET)
+        if search_form.is_valid():
+            query = search_form.cleaned_data['query']
+
+            if query == '' or query == None:
+                return redirect('blog:contact_us')
+            else:
+                post = Post.objects.annotate(
+                    search=SearchVector('title', 'body', 'status', 'author'),
+                ).filter(search=query, status='published')
+                blog_filtered = True
+    
+    # contact form logic
+    if request.method == 'POST':
+        contact_form = ContactUsForm(request.POST)
+        if contact_form.is_valid():
+            contact_form.save()
+            messages.success(request, "Message sent successfully")
+            return redirect('blog:post_list')
+        else:
+            messages.error(request, "Failed to send message!")
+    
+    context = {
+        'form': search_form,
+        'contact_form': contact_form,
+        'query': query,
+        'blog_filtered': blog_filtered,
+    }
+    
+    return render(request, 'blog/post/contact.html', context)

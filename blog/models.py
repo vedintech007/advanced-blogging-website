@@ -1,3 +1,4 @@
+from email import message
 from ckeditor.fields import RichTextField
 from django.conf import settings
 from django.db import models
@@ -22,14 +23,17 @@ class Post(models.Model):
     )
 
     title = models.CharField(max_length=250)
-    cover_image = models.ImageField(upload_to="static/img/post_cover_images", null=True)
-    slug = models.SlugField(max_length=250, unique_for_date='publish', blank=True, null=True)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blog_posts')
+    cover_image = models.ImageField(
+        upload_to="static/img/post_cover_images", null=True)
+    slug = models.SlugField(
+        max_length=250, unique_for_date='publish', blank=True, null=True)
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blog_posts')
     body = RichTextField()
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    
+
     # Admin usauge
     status = models.CharField(
         max_length=10, choices=STATUS_CHOICES, default='draft')
@@ -83,3 +87,21 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment by {self.name} on {self.post}'
+
+
+class ContactUs(models.Model):
+    REASON_CHOICES = (
+        ('inquiry', 'Inquiry'),
+        ('report', 'Report'),
+        ('job', 'Job'),
+    )
+    name = models.CharField(max_length=150)
+    email = models.EmailField()
+    message = models.TextField()
+    telephone = models.IntegerField()
+    reason = models.CharField(
+        max_length=10, choices=REASON_CHOICES, default='inquiry')
+    
+    class Meta:
+        verbose_name = 'Contact Us'
+        verbose_name_plural = 'Contact Us'

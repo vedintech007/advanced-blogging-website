@@ -20,3 +20,10 @@ class CommentAdmin(admin.ModelAdmin):
 	list_display = ('name', 'email', 'post', 'created', 'active')
 	list_filter = ('active', 'created', 'updated')
 	search_fields = ('name', 'email', 'body')
+
+
+@admin.register(ContactUs)
+class CommentAdmin(admin.ModelAdmin):
+	list_display = ('name', 'email', 'reason')
+	list_filter = ('name', 'email', 'reason')
+	search_fields = ('name', 'email', 'body', 'reason')

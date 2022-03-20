@@ -1,7 +1,9 @@
 asgiref==3.5.0
+caugetch==0.0.1
 certifi==2021.10.8
 charset-normalizer==2.0.11
 cloudinary==1.29.0
+colorama==0.4.4
 Django==3.2
 django-ckeditor==6.2.0
 django-cleanup==6.0.0

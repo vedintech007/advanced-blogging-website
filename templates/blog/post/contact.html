@@ -1,0 +1,77 @@
+{% extends "blog/partials/main_base.html" %}
+{% block title %}Contact Us{% endblock title %}
+{% load blog_tags %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% if blog_filtered %}
+{% include "blog/post/search.html" %}
+{% else %}
+<section class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h2 class="mb-4">Contact Us</h2>
+				<img src="{% static 'site_images/contact.jpg' %}" alt="Contact us image" class="img-fluid w-100 mb-4">
+				<h3 class="font-weight-light">Hello, I’m <span class="font-weight-bold">Victor Dickson</span></h3>
+				<p class="my-4">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem deserunt tempora doloribus non,
+					voluptas dolor? Consequuntur et ad officiis iste, vero natus possimus labore veritatis a eius
+					doloremque. Optio amet quis harum nulla vitae repellat officiis veniam accusamus error hic deleniti
+					in, quas est illum cum natus neque possimus delectus dolore ipsam. Pariatur, ad molestias alias
+					voluptas iusto quam debitis beatae sint similique velit, dicta eos dolorum cumque mollitia officia
+					iure labore voluptatibus. Non at sequi, natus dolores, cum accusamus repudiandae hic blanditiis
+					ipsum possimus qui assumenda quaerat optio ab molestias ipsa iste molestiae dignissimos.
+					Reprehenderit quod totam nostrum nihil.
+					<br><br>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem deserunt tempora doloribus non,
+					voluptas dolor? Consequuntur et ad officiis iste, vero natus possimus labore veritatis a eius
+					doloremque. Optio amet quis harum nulla vitae repellat officiis veniam accusamus error hic deleniti
+					in, quas est illum cum natus neque possimus delectus dolore ipsam. Pariatur, ad molestias alias
+					voluptas iusto quam debitis beatae sint similique velit, dicta eos dolorum cumque mollitia officia
+					iure labore voluptatibus. Non at sequi, natus dolores, cum accusamus repudiandae hic blanditiis
+					ipsum possimus qui assumenda quaerat optio ab molestias ipsa iste molestiae dignissimos.
+					Reprehenderit quod totam nostrum nihil.
+				</p>
+
+				<form action="" method="POST" class="row">
+					{% csrf_token %}
+					<div class="col-lg-6">
+						<label for="">{{contact_form.name.label}}</label>
+						{{contact_form.name}}
+					</div>
+					<div class="col-lg-6">
+						<label for="">{{contact_form.email.label}}</label>
+						{{contact_form.email}}
+					</div>
+					
+					<div class="col-lg-6">
+						<label for="">{{contact_form.telephone.label}}</label>
+						{{contact_form.telephone}}
+					</div>
+					<div class="col-lg-6">
+						<label for="">{{contact_form.reason.label}}</label>
+						{{contact_form.reason}}
+					</div>
+					<div class="col-lg-12">
+						<label for="">{{contact_form.message.label}}</label>
+						{{contact_form.message}}
+					</div>
+					<input class="btn btn-success col-12 h5" value="Submit Now" type="submit">
+				</form>
+
+			</div>
+		</div>
+	</div>
+</section>
+{% endif %}
+
+<script>
+	let reason = document.getElementById('id_reason')
+	let message = document.getElementById('id_message')
+	reason.classList.add('form-control', 'mb-4')
+	message.classList.add('form-control', 'mb-4')
+</script>
+{% endblock content %}

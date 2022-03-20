@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Comment, Post
+from .models import Comment, ContactUs, Post
 
 
 class BlogPostForm(forms.ModelForm):
@@ -62,7 +62,7 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ('name', 'email', 'body')
 
-
+ContactUs
 class SearchForm(forms.Form):
     query = forms.CharField(
         required=False,
@@ -76,3 +76,33 @@ class SearchForm(forms.Form):
             }
         )
     )
+
+
+class ContactUsForm(forms.ModelForm):
+    name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control mb-4',
+            }
+        )
+    )
+    email = forms.EmailField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control mb-4',
+            }
+        )
+    )
+
+    telephone = forms.IntegerField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control mb-4',
+            }
+        )
+    )
+
+    
+    class Meta:
+        model = ContactUs
+        fields = '__all__'

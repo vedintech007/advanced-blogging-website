@@ -21,5 +21,5 @@ urlpatterns = [
     path('pending/blog/posts/', user_pending_blogs, name="pending_blogs"),
     path('rejected/blog/posts/', user_rejected_blogs, name="rejected_blogs"),
     
-    
+    path('contact-us/', contact_us, name='contact_us')
 ]
