@@ -419,7 +419,7 @@ def user_rejected_blogs(request):
 
 
 def contact_us(request):
-    post = Post.published.all()
+    posts = Post.published.all()
     search_form = SearchForm()
     query = None
     contact_form = ContactUsForm
@@ -435,7 +435,7 @@ def contact_us(request):
             if query == '' or query == None:
                 return redirect('blog:contact_us')
             else:
-                post = Post.objects.annotate(
+                posts = Post.objects.annotate(
                     search=SearchVector('title', 'body', 'status', 'author'),
                 ).filter(search=query, status='published')
                 blog_filtered = True
@@ -451,6 +451,7 @@ def contact_us(request):
             messages.error(request, "Failed to send message!")
     
     context = {
+        'posts': posts,
         'form': search_form,
         'contact_form': contact_form,
         'query': query,
