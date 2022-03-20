@@ -1,44 +1,51 @@
 <!-- page-title -->
 <section class="section">
-  <div class="container-fluid">
-    <div class="blog-detail-cover-image pt-3">
-      <span class="d-flex justify-content-center p-5">
-        {% if tag %}
-        <h4 class="text-white">
-          {{post_count}} post{{post_count|pluralize}} tagged with <span class="fw-bolder text-info">{{tag.name}}</span>
-        </h4>
-        {% endif %}
-        {% if blog_filtered %}
-        <h4 class="text-white">
-          {{post_count}} post{{post_count|pluralize}} available for your Search
-        </h4>
-        {% endif %}
-      </span>
+	<div class="container-fluid">
+		<div class="blog-detail-cover-image pt-3">
+			<span class="d-flex justify-content-center p-5">
+				{% if tag %}
+				<h4 class="text-white">
+					{{post_count}} post{{post_count|pluralize}} tagged with <span
+						class="fw-bolder text-info">{{tag.name}}</span>
+				</h4>
+				{% endif %}
+				{% if blog_filtered %}
+					{% if post_count > 0 %}
+						<h4 class="text-white">
+							{{post_count}} post{{post_count|pluralize}} available for your Search
+						</h4>
+					{% else %}
+						<h4 class="text-white">
+							No post available for your Search
+						</h4>
+					{% endif %}
+				{% endif %}
+			</span>
 
-    </div>
+		</div>
 </section>
 <!-- /page-title -->
 
 <!-- search result -->
 <section class="section">
-  <div class="container">
-    <div class="row">
-      {% for post in posts %}
-      <div class="col-lg-10 mx-auto">
-        <ul class="list-unstyled">
+	<div class="container">
+		<div class="row">
+			{% for post in posts %}
+			<div class="col-lg-10 mx-auto">
+				<ul class="list-unstyled">
 
-          <li class="border-bottom mb-4 pb-3">
-            <h4><a href="{{post.get_absolute_url}}" class="text-dark">{{ post.title }}</a></h4>
-            <p>Published {{post.publish}} by {{post.author.username}}</p>
-            <p>{{post.body|striptags|truncatewords_html:30}}</p>
-            <a href="{{post.get_absolute_url}}" class="btn btn-transparent pl-0">Read More</a>
-          </li>
+					<li class="border-bottom mb-4 pb-3">
+						<h4><a href="{{post.get_absolute_url}}" class="text-dark">{{ post.title }}</a></h4>
+						<p>Published {{post.publish}} by {{post.author.username}}</p>
+						<p>{{post.body|striptags|truncatewords_html:30}}</p>
+						<a href="{{post.get_absolute_url}}" class="btn btn-transparent pl-0">Read More</a>
+					</li>
 
-        </ul>
-      </div>
-      {% endfor %}
+				</ul>
+			</div>
+			{% endfor %}
 
-    </div>
-  </div>
+		</div>
+	</div>
 </section>
 <!-- /search result -->

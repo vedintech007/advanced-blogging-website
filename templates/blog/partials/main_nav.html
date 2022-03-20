@@ -60,6 +60,12 @@
 
 			<form class="form-inline position-relative ml-lg-4">
 				{{form}}
+				<datalist id="suggestions">
+					{% for post in posts %}
+					<!--|slice:"5" -->
+					<option value="{{post.title}}">{{post.body|striptags|truncatewords_html:3}}</option>
+					{% endfor %}
+				</datalist>
 				<a href="#" class="search-icon"><i class="ti-search text-dark"></i></a>
 			</form>
 			<datalist id="suggestions">

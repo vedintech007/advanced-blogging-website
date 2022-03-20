@@ -100,7 +100,7 @@ class ContactUs(models.Model):
     message = models.TextField()
     telephone = models.IntegerField()
     reason = models.CharField(
-        max_length=10, choices=REASON_CHOICES, default='inquiry')
+        max_length=10, choices=REASON_CHOICES)
     
     class Meta:
         verbose_name = 'Contact Us'
