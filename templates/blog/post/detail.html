@@ -6,6 +6,7 @@
 
 
 {% block content %}
+
 {% if tag or blog_filtered %}
 {% include "blog/post/search.html" %}
 {% else %}
@@ -98,8 +99,7 @@
 					</div>
 				</p>
 
-
-				<div class="col-12 comment-container">
+				<div class="col-12 comment-container my-4">
 					{% with comments.count as total_comments %}
 					<h3 class="text-center">
 						{{ total_comments }} comment{{ total_comments|pluralize }}
@@ -145,6 +145,5 @@
 	</div>
 </div> -->
 {% endif %}
-
 
 {% endblock content %}
