@@ -122,6 +122,38 @@
 					{% endfor %}
 				</div>
 
+				<button type="button" class="btn btn-primary col-12 mx-2 h4" data-toggle="modal"
+					data-target="#modal-default">
+					<i class="bi bi-trash"></i>
+					Add Comment
+				</button>
+
+				<div class="modal fade" id="modal-default">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Add New Comment</h4>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<form action="" method="POST" enctype="multipart/form-data">
+								{% csrf_token %}
+								<div class="form-group mx-2">
+									{{comment_form.as_p}}
+								</div>
+								<div class="modal-footer justify-content-around">
+									<input type="submit" class="btn btn-danger" value="Add new comment">
+									<button type="button" class="btn btn-info" data-dismiss="modal">No
+										,Cancel!</button>
+								</div>
+							</form>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+
 			</div>
 
 			<!-- side bar -->

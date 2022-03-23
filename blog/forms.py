@@ -45,6 +45,11 @@ class EmailPostForm(forms.Form):
 
 
 class CommentForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CommentForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
     email = forms.EmailField(
         widget=forms.TextInput(
             attrs={
@@ -62,7 +67,6 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ('name', 'email', 'body')
 
-ContactUs
 class SearchForm(forms.Form):
     query = forms.CharField(
         required=False,

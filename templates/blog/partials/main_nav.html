@@ -24,7 +24,7 @@
 				<li class="nav-item dropdown">
 					<a class="nav-link text-uppercase text-dark dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					{{request.user.username}}
+						{{request.user.username}}
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
@@ -33,11 +33,16 @@
 						<hr>
 						{% if request.user.is_staff %}
 						<a class="dropdown-item" href="{% url 'all_users' %}">All Users</a>
-						<a class="dropdown-item" href="{% url 'blog:pending_blogs' %}">Pending Blogs</a>
+						<a class="dropdown-item" href="{% url 'blog:pending_blogs' %}">
+							Pending Blogs
+							<!-- {% if posts.status == 'published' %}
+							<span class="badge badge-danger">4</span>
+							{% endif %} -->
+						</a>
 						<a class="dropdown-item" href="{% url 'blog:rejected_blogs' %}">Rejected Blogs</a>
 						<hr>
 						{% endif %}
-						
+
 						<a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a>
 						<a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
 					</div>

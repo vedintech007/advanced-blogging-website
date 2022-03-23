@@ -18,7 +18,7 @@ def on_user_logged_out(sender, request, user, **kwargs):
     messages.add_message(request, messages.SUCCESS, msg)
 
 
-@receiver(user_logged_in)
+@receiver(user_logged_in, sender=User)
 def on_user_logged_in(sender, request, user, **kwargs):
     if user:
         msg = f'Signed in as {request.user.username}!'
@@ -28,7 +28,7 @@ def on_user_logged_in(sender, request, user, **kwargs):
     messages.add_message(request, messages.SUCCESS, msg)
 
 
-@receiver(user_login_failed)
+@receiver(user_login_failed, sender=User)
 def on_user_logged_in_failed(sender, request, user, **kwargs):
     if user:
         msg = 'Sign in failed!'
